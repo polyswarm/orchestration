@@ -1,7 +1,7 @@
 version: '3'
 services:
     engine:
-        image: "polyswarm/engine"
+        image: "polyswarm/tutorial"
         #
         # this trendd is non sequitur. needs to be updated
         #
