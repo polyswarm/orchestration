@@ -1,5 +1,14 @@
-#
-# details has to be described here:
-# 
-# $ docker-compose -f polyswarmd.yml -f tutorial.yml up
-#
+version: '3'
+services:
+    engine:
+       image: "polyswarm/engine"
+       command: "trendd integration" 
+       # depends_on:
+       #    - polyswarmd
+       environment:
+           - TREND_HOST=trendmicro:332
+           - POLYSWARM_HOST=polyswarmd
+       volumes:
+           - "contract:/flag" 
+volumes:
+    contract:
