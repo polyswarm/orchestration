@@ -1,0 +1,13 @@
+version: '3'
+services:
+    tutorial:
+        image: "polyswarm/tutorial"
+        depends_on:
+           - polyswarmd
+        environment:
+            - POLYSWARM_HOST=polyswarmd
+        volumes:
+            - "contract:/flag" 
+        command: "python scratch.py"
+volumes:
+    contract:
