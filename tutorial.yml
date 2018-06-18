@@ -1,15 +1,9 @@
 version: '3'
 services:
     engine:
-        image: "polyswarm/tutorial"
-        #
-        # this trendd is non sequitur. needs to be updated
-        #
-        command: "trendd integration" 
         # depends_on:
         #    - polyswarmd
         environment:
-            - TREND_HOST=trendmicro:332
             - POLYSWARM_HOST=polyswarmd
         volumes:
             - "contract:/flag" 
