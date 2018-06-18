@@ -1,11 +1,7 @@
 version: '3'
 services:
-    #
-    # the tutorial.yml builds here since docker push did not work 
-    # at this point.     
-    #
     engine:
-        build: "."
+        image: "polyswarm/tutorial"
         depends_on:
            - polyswarmd
         environment:
