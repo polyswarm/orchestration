@@ -5,7 +5,7 @@ services:
         depends_on:
             - geth
             - ipfs
-            - polyswarm-contracts
+            - contract
         environment:
             - PYTHONUNBUFFERED=1
             - HOME_ETH_URI=http://geth:8545
@@ -16,7 +16,7 @@ services:
         command: ["./scripts/wait_for_truffle.sh", "polyswarmd"]
         volumes:
             - "./:/etc/polyswarmd"
-    tx-singer:
+    tx-signer:
         image: "gitlab.polyswarm.io:3343/polyswarm/transaction-signer/transaction-signer"
         depends_on:
             - polyswarmd
