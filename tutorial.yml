@@ -5,7 +5,6 @@ services:
         depends_on:
             - polyswarmd
         environment:
-            - CLAMD_HOST=clamav:3310
             - POLYSWARMD_HOST=polyswarmd:31337
         command: "go run scratch.go"
         volumes:
