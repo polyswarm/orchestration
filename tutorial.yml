@@ -12,13 +12,6 @@ services:
         volumes:
             - "./UTC--2018-05-04T12-14-54.999695129Z--34e583cf9c1789c3141538eec77d9f0b8f7e89f2:/keyfile"
 
-    clamav:
-        image: "polyswarm/microengine-clamav"
-        deploy:
-           resources:
-             limits:
-               memory: 50M
-
 volumes:
     ipfs-export:
     ipfs-data:
