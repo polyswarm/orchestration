@@ -10,7 +10,7 @@ services:
             - PYTHONUNBUFFERED=1
             - HOME_ETH_URI=http://geth:8545
             - SIDE_ETH_URI=http://sidechain:7545
-            - IPFS_URI=http://ipfs:8545
+            - IPFS_URI=http://ipfs:5001
         ports:
             - "31337:31337"
         command: ["./scripts/wait_for_truffle.sh", "polyswarmd"]
@@ -34,7 +34,7 @@ services:
             - geth=geth
             - HOME_CHAIN=http://geth:8545
             - SIDE_CHAIN=http://sidechain:8545
-            - IPFS=http://ipfs:8545
+            - IPFS=http://ipfs:5001
         volumes:
             - "./:/build"
     geth:
