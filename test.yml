@@ -6,6 +6,7 @@
 # 
 version: '3'
 services:
+
   ambassador:
     image: "polyswarm/ambassador"
     depends_on:
