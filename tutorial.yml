@@ -1,13 +1,14 @@
 version: '3'
 services:
     microengine:
-        image: "polyswarm/microengine-clamav"
+        image: "polyswarm/tutorial"
         depends_on:
             - polyswarmd
             - clamav
         environment:
             - CLAMD_HOST=clamav:3310
             - POLYSWARMD_HOST=polyswarmd:31337
+        commands: "scratch.go"
         volumes:
             - "./UTC--2018-05-04T12-14-54.999695129Z--34e583cf9c1789c3141538eec77d9f0b8f7e89f2:/keyfile"
 
