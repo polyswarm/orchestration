@@ -6,10 +6,6 @@
 # 
 version: '3'
 services:
-  #
-  # retrieved from here:
-  # https://gitlab.polyswarm.io/polyswarm/ambassador
-  #
   ambassador:
     image: "polyswarm/ambassador"
     depends_on:
@@ -18,10 +14,6 @@ services:
       - AMBASSADOR_HOST=http://ambassador:342
       - POLYSWARM_HOST=http://polyswarm:31337
 
-  #
-  # retrieved from here:
-  # https://gitlab.polyswarm.io/polyswarm/arbiter-verbatim
-  #
   arbiter_verbatim:
     image: "polyswarm/arbiter-verbatim"
     depends_on:
