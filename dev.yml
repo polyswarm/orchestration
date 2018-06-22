@@ -34,7 +34,7 @@ services:
             - geth=geth
             - HOME_CHAIN=http://geth:8545
             - SIDE_CHAIN=http://sidechain:8545
-            - IPFS=http://ipfs:8545
+            - IPFS=http://ipfs:5001
         volumes:
             - "./:/build"
     geth:
