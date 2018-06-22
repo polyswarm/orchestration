@@ -5,7 +5,7 @@ services:
         depends_on:
             - polyswarmd
         network_mode: "host"
-       environment:
+        environment:
            - POLYSWARMD_HOST=polyswarmd
            - POLYSWARMD_PORT=31337
         command: "./wait_and_run.sh"
