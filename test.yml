@@ -11,10 +11,9 @@ services:
     depends_on:
       - polyswarmd
     environment:
-      - AMBASSADOR_HOST=http://ambassador:342
-      - POLYSWARM_HOST=localhost
+      - POLYSWARM_HOST=polyswarmd
       - POLYSWARM_PORT=31337
-    network_mode: "host"
+#    network_mode: "host"
     command: "./wait_and_run.sh"
     
 
