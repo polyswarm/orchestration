@@ -4,7 +4,6 @@ services:
         image: "polyswarm/tutorial"
         depends_on:
             - polyswarmd
-        network_mode: "host"
         environment:
            - POLYSWARMD_HOST=polyswarmd
            - POLYSWARMD_PORT=31337
