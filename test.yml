@@ -1,24 +1,20 @@
 #
-# This file should be combined with polyswarmd.yml and contract.yml such as:
+# This file should be combined with dev.yml and tutorial.yml such as:
 # 
-# $ docker-compose -f polyswarmd.yml -f contract.yml -f test.yml up
+# $ docker-compose -f dev.yml -f tutorial.yml -f test.yml up
 #
 # 
 version: '3'
 services:
-
   ambassador:
     image: "polyswarm/ambassador"
     depends_on:
       - polyswarmd
     environment:
       - AMBASSADOR_HOST=http://ambassador:342
-      - POLYSWARM_HOST=http://polyswarm:31337
+      - POLYSWARM_HOST=localhost
+      - POLYSWARM_PORT=31337
+    network_mode: "host"
+    command: "./wait_and_run.sh"
+    
 
-  arbiter_verbatim:
-    image: "polyswarm/arbiter-verbatim"
-    depends_on:
-       - polyswarmd
-    environment:
-      - ARBITER_HOST=http://arbiter_verbatim:352
-      - POLYSWARM_HOST=http://polyswarm:31337
