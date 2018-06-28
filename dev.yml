@@ -16,14 +16,14 @@ services:
         command: ["./scripts/wait_for_truffle.sh", "polyswarmd"]
         volumes:
             - "./:/etc/polyswarmd"
-    tx-signer:
-        image: "polyswarm/transaction-signer"
-        depends_on:
-            - polyswarmd
-        environment:
-            - POLYSWARMD_NETWORK=ws://polyswarmd:31337/transactions
+#    tx-signer:
+#        image: "polyswarm/transaction-signer"
+#        depends_on:
+#            - polyswarmd
+#        environment:
+#            - POLYSWARMD_NETWORK=ws://polyswarmd:31337/transactions
             # - datadir="/home/user/.ethereum/priv_testnet"
-            # - address="34e583cf9c1789c3141538eec77d9f0b8f7e89f2"
+            #- address="af8302a3786a35abeddf19758067adc9a23597e5"
             # - password="password"
     contract:
         depends_on:
