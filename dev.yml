@@ -25,7 +25,7 @@ services:
             # - datadir="/home/user/.ethereum/priv_testnet"
             #- address="af8302a3786a35abeddf19758067adc9a23597e5"
             # - password="password"
-    contract:
+    contractor:
         depends_on:
             - geth
             - sidechain
