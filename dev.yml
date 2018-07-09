@@ -36,6 +36,8 @@ services:
             - SIDE_CHAIN=http://sidechain:8545
             - IPFS=http://ipfs:5001
             - ARBITER=0x34e583cf9c1789c3141538eec77d9f0b8f7e89f2
+            - POLYSWARMD_HOST=polyswarmd
+            - POLYSWARMD_PORT=31337
         volumes:
             - "./:/build"
     geth:

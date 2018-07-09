@@ -25,6 +25,8 @@ services:
       - ADDRESS=0x34e583cf9c1789c3141538eec77d9f0b8f7e89f2
       - PASSWORD="password"
       - CHAIN="home"
+      - POLYSWARMD_HOST=polyswarmd
+      - POLYSWARMD_PORT=31337
     command: "./scripts/wait_for_it.sh" # TODO: needs this?
   microengine:
     image: "polyswarm/microengine"
