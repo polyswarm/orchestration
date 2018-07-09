@@ -11,8 +11,8 @@ services:
     depends_on:
       - polyswarmd
     environment:
-      - POLYSWARM_HOST=polyswarmd
-      - POLYSWARM_PORT=31337
+      - POLYSWARMD_HOST=polyswarmd
+      - POLYSWARMD_PORT=31337
     command: "./wait_and_run.sh"
   arbiter:
     image: "polyswarm/arbiter"

@@ -5,7 +5,7 @@ services:
         depends_on:
             - geth
             - ipfs
-            - contract
+            - contracts
         environment:
             - PYTHONUNBUFFERED=1
             - HOME_ETH_URI=http://geth:8545
