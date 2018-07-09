@@ -35,11 +35,12 @@ services:
             - HOME_CHAIN=http://homechain:8545
             - SIDE_CHAIN=http://sidechain:8545
             - IPFS=http://ipfs:5001
-            - ARBITER=0xf870491ea0f53f67846eecb57855284d8270284d
+            - OPTIONS=/config/users.yml
             - POLYSWARMD_HOST=polyswarmd
             - POLYSWARMD_PORT=31337
         volumes:
             - "./:/build"
+            - "./config:/config"
         command: ["./scripts/migrate_and_create_config.sh"]
     homechain:
         image: "polyswarm/priv-testnet"

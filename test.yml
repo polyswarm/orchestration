@@ -1,9 +1,9 @@
 #
 # This file should be combined with dev.yml and tutorial.yml such as:
-# 
+#
 # $ docker-compose -f dev.yml -f tutorial.yml -f test.yml up
 #
-# 
+#
 version: '3'
 services:
   ambassador:
