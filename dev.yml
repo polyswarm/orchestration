@@ -3,12 +3,12 @@ services:
     polyswarmd:
         image: "polyswarm/polyswarmd"
         depends_on:
-            - geth
+            - homechain
             - ipfs
             - contracts
         environment:
             - PYTHONUNBUFFERED=1
-            - HOME_ETH_URI=http://geth:8545
+            - HOME_ETH_URI=http://homechain:8545
             - SIDE_ETH_URI=http://sidechain:7545
             - IPFS_URI=http://ipfs:5001
         ports:
@@ -27,12 +27,12 @@ services:
             # - password="password"
     contracts:
         depends_on:
-            - geth
+            - homechain
             - sidechain
         image: "polyswarm/contracts"
         environment:
-            - geth=geth
-            - HOME_CHAIN=http://geth:8545
+            - geth=homechain
+            - HOME_CHAIN=http://homechain:8545
             - SIDE_CHAIN=http://sidechain:8545
             - IPFS=http://ipfs:5001
             - ARBITER=0x34e583cf9c1789c3141538eec77d9f0b8f7e89f2
@@ -40,7 +40,7 @@ services:
             - POLYSWARMD_PORT=31337
         volumes:
             - "./:/build"
-    geth:
+    homechain:
         image: "polyswarm/priv-testnet"
         logging:
             driver: none
