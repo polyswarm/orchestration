@@ -11,21 +11,22 @@ services:
     depends_on:
       - polyswarmd
     environment:
-      - POLYSWARM_HOST=polyswarmd
-      - POLYSWARM_PORT=31337
+      - POLYSWARMD_HOST=polyswarmd
+      - POLYSWARMD_PORT=31337
     command: "./wait_and_run.sh"
   arbiter:
     image: "polyswarm/arbiter"
     depends_on:
       - polyswarmd
-      - geth
+      - homechain
     environment:
+      - PYTHONUNBUFFERED=1
       - POLYSWARM_HOST=http://polyswarmd:31337
-      - GETH=http://geth:8545
+      - GETH=http://homechain:8545
       - ADDRESS=0x34e583cf9c1789c3141538eec77d9f0b8f7e89f2
-      - PASSWORD="password"
-      - CHAIN="home"
-    command: "./scripts/wait_for_it.sh" # TODO: needs this?
+      - PASSWORD=password
+      - CHAIN=home
+    command: "./scripts/wait_for_it.sh -t 0 polyswarmd:31337 -- python arbiter.py --backend verbatim --test"
   microengine:
     image: "polyswarm/microengine"
     depends_on:
@@ -33,4 +34,4 @@ services:
     environment:
       - POLYSWARMD_HOST=polyswarmd
       - POLYSWARMD_PORT=31337
-    command: "./scripts/wait_for_it.sh -h ${POLYSWARMD_HOST} -p ${POLYSWARMD_PORT}"
+    command: "./wait_and_run.sh"
