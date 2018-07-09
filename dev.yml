@@ -40,6 +40,7 @@ services:
             - POLYSWARMD_PORT=31337
         volumes:
             - "./:/build"
+        command: ["./scripts/migrate_and_test.sh"]
     homechain:
         image: "polyswarm/priv-testnet"
         logging:
