@@ -35,4 +35,4 @@ services:
     environment:
       - POLYSWARMD_HOST=polyswarmd
       - POLYSWARMD_PORT=31337
-    command: "./scripts/wait_for_it.sh -h ${POLYSWARMD_HOST} -p ${POLYSWARMD_PORT}"
+    command: "./scripts/wait_for_it.sh -h $${POLYSWARMD_HOST} -p $${POLYSWARMD_PORT}"
