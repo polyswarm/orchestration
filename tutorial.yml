@@ -1,16 +1,11 @@
 version: '3'
 services:
-    microengine:
-        image: "polyswarm/tutorial"
+    tutorial:
+        image: "polyswarm/microengine"
         depends_on:
             - polyswarmd
         environment:
            - POLYSWARMD_HOST=polyswarmd
            - POLYSWARMD_PORT=31337
-        command: "./wait_and_run.sh"
-#        volumes:
-#            - "./UTC--2018-05-04T12-14-54.999695129Z--34e583cf9c1789c3141538eec77d9f0b8f7e89f2:/keyfile"
-
-volumes:
-    ipfs-export:
-    ipfs-data:
+           - POLYSWARMD_ADDR=polyswarmd:31337
+        command: "./scripts/wait_and_clam.sh"

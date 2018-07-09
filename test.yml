@@ -35,4 +35,4 @@ services:
       - POLYSWARMD_HOST=polyswarmd
       - POLYSWARMD_PORT=31337
       - POLYSWARMD_ADDR=polyswarmd:31337
-    command: "./wait_and_run.sh"
+    command: "./scripts/wait_and_test.sh"
