@@ -25,11 +25,11 @@ services:
             # - datadir="/home/user/.ethereum/priv_testnet"
             #- address="af8302a3786a35abeddf19758067adc9a23597e5"
             # - password="password"
-    contractor:
+    contracts:
         depends_on:
             - geth
             - sidechain
-        image: "polyswarm/contractor"
+        image: "polyswarm/contracts"
         environment:
             - geth=geth
             - HOME_CHAIN=http://geth:8545
