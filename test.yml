@@ -18,7 +18,7 @@ services:
     image: "polyswarm/arbiter"
     depends_on:
       - polyswarmd
-      - geth
+      - homechain
     environment:
       - POLYSWARM_HOST=http://polyswarmd:31337
       - GETH=http://geth:8545
