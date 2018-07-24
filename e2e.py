@@ -34,12 +34,12 @@ def acquire_remaining_repos():
 		print('Detected some repos, but here\'s what you need:')
 		print(str(PS_REPOS)+Style.RESET_ALL)
 		sleep(2)
-		os.chdir(ab_path)
-		
+
 		for repo in PS_REPOS:
+			os.chdir(ab_path)
 			command = 'git clone -b master {0}{1}'.format(PS_GITHUB_URL,repo)
-			subprocess.run(command.split())
 			print(command)
+			subprocess.run(command.split(), check=True)
 			sleep(3)
 			print(Fore.MAGENTA+"cloned master branch of " + repo)
 			print(stars+"\nbuilding image from cloned repo...\n"+stars+Style.RESET_ALL)
@@ -49,7 +49,7 @@ def acquire_remaining_repos():
 			subprocess.run(command2.split())
 	#if they got everything
 	else:
-		print(Fore.MAGENTA+"You have all of our necessary repos in your specified directory,\
+		print(Fore.MAGENTA+"You have all of our necessary repos in your specified directory, \
 please make sure they're up to date :)")
 		sleep(3)
 
@@ -74,7 +74,7 @@ def dock_clean():
 	subprocess.run(clean2.split())
 
 def compose_test():
-	print(Fore.MAGENTA+"beginning testing...average test time on dev setup ~4 minutes" + Style.RESET_ALL)
+	print(Fore.MAGENTA+"Beginning testing...average test time on dev setup ~4 minutes" + Style.RESET_ALL)
 	sleep(1)
 	composecmd = 'docker-compose -f {0}/dev.yml -f {0}/test.yml up -d'.format(os.path.join(ab_path,'orchestration'))
 	subprocess.run(composecmd.split())
