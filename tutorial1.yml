@@ -34,3 +34,5 @@ services:
         command: "./scripts/wait_and_clam.sh"
   clamav:
         image: "mkodockx/docker-clamav"
+        ports:
+           - 3310:3310

@@ -31,5 +31,4 @@ services:
            - POLYSWARMD_ADDR=polyswarmd:31337
            - CLAMD_HOST=clamav
            - CLAMD_PORT=3310
-        command: "./scripts/wait_and_run.sh --backend eicar --password password --keyfile docker/keyfile"
-  
+        command: "./scripts/wait_and_run.sh --password password --keyfile docker/keyfile --backend eicar"
