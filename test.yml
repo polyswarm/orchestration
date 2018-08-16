@@ -21,7 +21,8 @@ services:
       - homechain
     environment:
       - PYTHONUNBUFFERED=1
-      - POLYSWARM_HOST=http://polyswarmd:31337
+      - POLYSWARMD_HOST=polyswarmd
+      - POLYSWARMD_PORT=31337
       - ADDRESS=0xf870491ea0f53f67846eecb57855284d8270284d
       - PASSWORD=password
       - CHAIN=home
