@@ -37,6 +37,9 @@ services:
     depends_on:
       - polyswarmd
     environment:
+      - API_KEY_HOST=apikeymgmt:5000
+      - EMAIL=microengine@polyswarm.io
+      - ADDRESS=0x05328f171b8c1463eaFDACCA478D9EE6a1d923F8
       - POLYSWARMD_HOST=polyswarmd
       - POLYSWARMD_PORT=31337
       - POLYSWARMD_ADDR=polyswarmd:31337
