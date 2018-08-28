@@ -26,9 +26,9 @@ services:
       - PYTHONUNBUFFERED=1
       - API_KEY_HOST=apikeymgmt:5000
       - EMAIL=arbiter@polyswarm.io
+      - POLYSWARMD_HOST=polyswarmd
+      - POLYSWARMD_PORT=31337
       - ADDRESS=0xf870491ea0f53f67846eecb57855284d8270284d
-      - POLYSWARMD_HOST=polyswarmd:31337
-      - GETH=http://homechain:8545
       - PASSWORD=password
       - CHAIN=home
     command: "./scripts/wait_and_test.sh"
