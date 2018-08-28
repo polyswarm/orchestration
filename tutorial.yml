@@ -15,12 +15,13 @@ services:
       - homechain
     environment:
       - PYTHONUNBUFFERED=1
-      - POLYSWARM_HOST=http://polyswarmd:31337
+      - POLYSWARMD_HOST=polyswarmd
+      - POLYSWARMD_PORT=31337
       - GETH=http://homechain:8545
       - ADDRESS=0xf870491ea0f53f67846eecb57855284d8270284d
       - PASSWORD=password
       - CHAIN=home
-    command: "./scripts/wait_for_it.sh -t 0 polyswarmd:31337 -- python arbiter.py --backend verbatim --test"
+    command: "./scripts/wait_for_it.sh -t 0 polyswarmd:31337 -- arbiter --backend verbatim --test"
   tutorial:
         image: "polyswarm/microengine"
         depends_on:
@@ -32,3 +33,4 @@ services:
            - CLAMD_HOST=clamav
            - CLAMD_PORT=3310
         command: "./scripts/wait_and_run.sh --password password --keyfile docker/keyfile --backend eicar"
+
