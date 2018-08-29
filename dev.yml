@@ -8,23 +8,25 @@ services:
             - contracts
         environment:
             - PYTHONUNBUFFERED=1
-            - HOME_ETH_URI=http://homechain:8545
-            - SIDE_ETH_URI=http://sidechain:7545
-            - IPFS_URI=http://ipfs:5001
         ports:
             - "31337:31337"
-        command: ["./scripts/wait_for_truffle.sh", "polyswarmd"]
+        command: ["./scripts/wait_for_truffle.sh", "-w", "polyswarmd"]
         volumes:
             - "./:/etc/polyswarmd"
-#    tx-signer:
-#        image: "polyswarm/transaction-signer"
-#        depends_on:
-#            - polyswarmd
-#        environment:
-#            - POLYSWARMD_NETWORK=ws://polyswarmd:31337/transactions
-            # - datadir="/home/user/.ethereum/priv_testnet"
-            #- address="af8302a3786a35abeddf19758067adc9a23597e5"
-            # - password="password"
+    postgres:
+        image: postgres
+        restart: always
+        environment:
+            - POSTGRES_PASSWORD=example
+    apikeymgmt:
+        image: "polyswarm/api-key-management"
+        depends_on:
+            - postgres
+        environment:
+            - DB_URI=postgresql://postgres:example@postgres:5432
+        ports:
+            - "5000:5000"
+        command: ["./scripts/wait_for_it.sh", "-t", "0", "postgres:5432", "--", "apikeymgmt"]
     contracts:
         depends_on:
             - homechain
@@ -35,6 +37,7 @@ services:
             - HOME_CHAIN=http://homechain:8545
             - SIDE_CHAIN=http://sidechain:8545
             - IPFS=http://ipfs:5001
+            - DB=postgresql://postgres:example@postgres:5432
             - OPTIONS=/config/users.yml
             - POLYSWARMD_HOST=polyswarmd
             - POLYSWARMD_PORT=31337
