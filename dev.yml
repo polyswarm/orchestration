@@ -26,7 +26,7 @@ services:
             - DB_URI=postgresql://postgres:example@postgres:5432
         ports:
             - "5000:5000"
-        command: ["./scripts/wait_for_it.sh", "-t", "0", "postgres:5432", "--", "apikeymgmt"]
+        command: ["dockerize", "-wait", "tcp://postgres:5432", "apikeymgmt"]
     contracts:
         depends_on:
             - homechain
