@@ -16,7 +16,15 @@ services:
       - EMAIL=ambassador@polyswarm.io
       - ADDRESS=0x4b1867c484871926109e3c47668d5c0938ca3527
       - POLYSWARMD_HOST=polyswarmd:31337
-    command: "./scripts/wait_and_run.sh"
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-wait"
+      - "tcp://apikeymgmt:5000"
+      - "-timeout"
+      - "1000s"
+      - "./scripts/run_with_key.sh"
   arbiter:
     image: "polyswarm/arbiter"
     depends_on:
