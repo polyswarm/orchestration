@@ -49,7 +49,21 @@ services:
       - POLYSWARMD_ADDR=polyswarmd:31337
       - CLAMD_HOST=clamav
       - CLAMD_PORT=3310
-    command: "./scripts/wait_and_both.sh"
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-wait"
+      - "tcp://apikeymgmt:5000"
+      - "-timeout"
+      - "1000s"
+      - "./scripts/run_with_key.sh"
+      - "--keyfile"
+      - "docker/keyfile"
+      - "--password"
+      - "password"
+      - "--backend"
+      - "multi"
   clamav:
     image: "mkodockx/docker-clamav"
     ports:
