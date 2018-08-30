@@ -10,7 +10,7 @@ services:
             - PYTHONUNBUFFERED=1
         ports:
             - "31337:31337"
-        command: ["./scripts/wait_for_truffle.sh", "polyswarmd"]
+        command: ["./scripts/wait_for_truffle.sh", "-w", "polyswarmd"]
         volumes:
             - "./:/etc/polyswarmd"
     postgres:

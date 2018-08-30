@@ -5,9 +5,11 @@ services:
     depends_on:
       - polyswarmd
     environment:
-      - POLYSWARMD_HOST=polyswarmd
-      - POLYSWARMD_PORT=31337
-    command: "./wait_and_run.sh"
+      - API_KEY_HOST=apikeymgmt:5000
+      - EMAIL=ambassador@polyswarm.io
+      - ADDRESS=0x4b1867c484871926109e3c47668d5c0938ca3527
+      - POLYSWARMD_HOST=polyswarmd:31337
+    command: "./scripts/wait_and_run.sh"
   arbiter:
     image: "polyswarm/arbiter"
     depends_on:
@@ -15,24 +17,54 @@ services:
       - homechain
     environment:
       - PYTHONUNBUFFERED=1
-      - POLYSWARM_HOST=http://polyswarmd:31337
-      - GETH=http://homechain:8545
+      - API_KEY_HOST=apikeymgmt:5000
+      - EMAIL=arbiter@polyswarm.io
+      - POLYSWARMD_HOST=polyswarmd
+      - POLYSWARMD_PORT=31337
       - ADDRESS=0xf870491ea0f53f67846eecb57855284d8270284d
       - PASSWORD=password
       - CHAIN=home
-    command: "./scripts/wait_for_it.sh -t 0 polyswarmd:31337 -- python arbiter.py --backend verbatim --test"
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-wait"
+      - "tcp://apikeymgmt:5000"
+      - "-timeout"
+      - "1000s"
+      - "./scripts/run_with_key.sh"
+      - "--backend"
+      - "verbatim"
+      - "--test"
   tutorial:
-        image: "polyswarm/microengine"
-        depends_on:
-            - polyswarmd
-        environment:
-           - POLYSWARMD_HOST=polyswarmd
-           - POLYSWARMD_PORT=31337
-           - POLYSWARMD_ADDR=polyswarmd:31337
-           - CLAMD_HOST=clamav
-           - CLAMD_PORT=3310
-        command: "./scripts/wait_and_clam.sh"
+    image: "polyswarm/microengine"
+    depends_on:
+      - polyswarmd
+    environment:
+      - API_KEY_HOST=apikeymgmt:5000
+      - EMAIL=microengine@polyswarm.io
+      - ADDRESS=0x05328f171b8c1463eaFDACCA478D9EE6a1d923F8
+      - POLYSWARMD_HOST=polyswarmd
+      - POLYSWARMD_PORT=31337
+      - POLYSWARMD_ADDR=polyswarmd:31337
+      - CLAMD_HOST=clamav
+      - CLAMD_PORT=3310
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-wait"
+      - "tcp://apikeymgmt:5000"
+      - "-timeout"
+      - "1000s"
+      - "./scripts/run_with_key.sh"
+      - "--keyfile"
+      - "docker/keyfile"
+      - "--password"
+      - "password"
+      - "--backend"
+      - "clamav"
   clamav:
-        image: "mkodockx/docker-clamav"
-        ports:
-           - 3310:3310
+    image: "mkodockx/docker-clamav"
+    ports:
+        - 3310:3310
