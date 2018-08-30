@@ -54,4 +54,20 @@ services:
       - POLYSWARMD_HOST=polyswarmd
       - POLYSWARMD_PORT=31337
       - POLYSWARMD_ADDR=polyswarmd:31337
-    command: "./scripts/wait_and_test.sh"
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-wait"
+      - "tcp://apikeymgmt:5000"
+      - "-timeout"
+      - "1000s"
+      - "./scripts/run_with_key.sh"
+      - "--testing"
+      - "10"
+      - "--keyfile"
+      - "docker/keyfile"
+      - "--password"
+      - "password"
+      - "--backend"
+      - "scratch"
