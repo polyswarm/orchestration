@@ -13,20 +13,6 @@ services:
         command: ["./scripts/wait_for_truffle.sh", "-w", "polyswarmd"]
         volumes:
             - "./:/etc/polyswarmd"
-    postgres:
-        image: postgres
-        restart: always
-        environment:
-            - POSTGRES_PASSWORD=example
-    apikeymgmt:
-        image: "polyswarm/api-key-management"
-        depends_on:
-            - postgres
-        environment:
-            - DB_URI=postgresql://postgres:example@postgres:5432
-        ports:
-            - "5000:5000"
-        command: ["dockerize", "-wait", "tcp://postgres:5432", "apikeymgmt"]
     contracts:
         depends_on:
             - homechain
@@ -37,7 +23,6 @@ services:
             - HOME_CHAIN=http://homechain:8545
             - SIDE_CHAIN=http://sidechain:8545
             - IPFS=http://ipfs:5001
-            - DB=postgresql://postgres:example@postgres:5432
             - OPTIONS=/config/users.yml
             - POLYSWARMD_HOST=polyswarmd
             - POLYSWARMD_PORT=31337
