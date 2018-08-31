@@ -5,19 +5,16 @@ services:
     depends_on:
       - polyswarmd
     environment:
-      - API_KEY_HOST=apikeymgmt:5000
-      - EMAIL=ambassador@polyswarm.io
       - ADDRESS=0x4b1867c484871926109e3c47668d5c0938ca3527
       - POLYSWARMD_HOST=polyswarmd:31337
     command:
       - "dockerize"
       - "-wait"
       - "tcp://polyswarmd:31337"
-      - "-wait"
-      - "tcp://apikeymgmt:5000"
       - "-timeout"
       - "1000s"
-      - "./scripts/run_with_key.sh"
+      - "python"
+      - "ambassador.py"
   arbiter:
     image: "polyswarm/arbiter"
     depends_on:
@@ -25,8 +22,6 @@ services:
       - homechain
     environment:
       - PYTHONUNBUFFERED=1
-      - API_KEY_HOST=apikeymgmt:5000
-      - EMAIL=arbiter@polyswarm.io
       - POLYSWARMD_HOST=polyswarmd
       - POLYSWARMD_PORT=31337
       - ADDRESS=0xf870491ea0f53f67846eecb57855284d8270284d
@@ -36,11 +31,9 @@ services:
       - "dockerize"
       - "-wait"
       - "tcp://polyswarmd:31337"
-      - "-wait"
-      - "tcp://apikeymgmt:5000"
       - "-timeout"
       - "1000s"
-      - "./scripts/run_with_key.sh"
+      - "arbiter"
       - "--backend"
       - "verbatim"
       - "--test"
@@ -49,8 +42,6 @@ services:
     depends_on:
       - polyswarmd
     environment:
-      - API_KEY_HOST=apikeymgmt:5000
-      - EMAIL=microengine@polyswarm.io
       - ADDRESS=0x05328f171b8c1463eaFDACCA478D9EE6a1d923F8
       - POLYSWARMD_HOST=polyswarmd
       - POLYSWARMD_PORT=31337
@@ -61,11 +52,9 @@ services:
       - "dockerize"
       - "-wait"
       - "tcp://polyswarmd:31337"
-      - "-wait"
-      - "tcp://apikeymgmt:5000"
       - "-timeout"
       - "1000s"
-      - "./scripts/run_with_key.sh"
+      - "microengine"
       - "--keyfile"
       - "docker/keyfile"
       - "--password"
