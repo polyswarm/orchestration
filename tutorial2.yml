@@ -45,7 +45,7 @@ services:
       - ADDRESS=0x05328f171b8c1463eaFDACCA478D9EE6a1d923F8
       - POLYSWARMD_HOST=polyswarmd
       - POLYSWARMD_PORT=31337
-      - POLYSWARMD_ADDR=polyswarmd:31337
+      - POLYSWARMD_URI=http://polyswarmd:31337
       - CLAMD_HOST=clamav
       - CLAMD_PORT=3310
     command:
