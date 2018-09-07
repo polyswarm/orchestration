@@ -13,7 +13,7 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - ADDRESS=0x4b1867c484871926109e3c47668d5c0938ca3527
-      - POLYSWARMD_HOST=http://polyswarmd:31337
+      - POLYSWARMD_HOST=polyswarmd:31337
     command:
       - "dockerize"
       - "-wait"
