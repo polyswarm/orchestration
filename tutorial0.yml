@@ -39,7 +39,7 @@ services:
       - "--backend"
       - "verbatim"
       - "--test"
-  tutorial:
+  microengine:
     image: "polyswarm/microengine"
     depends_on:
       - polyswarmd
