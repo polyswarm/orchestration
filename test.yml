@@ -41,25 +41,9 @@ services:
       - "-timeout"
       - "1000s"
       - "arbiter"
-      - "--backend"
-      - "verbatim"
-      - "--test"
-  microengine:
-    image: "polyswarm/microengine"
-    depends_on:
-      - polyswarmd
-    environment:
-      - ADDRESS=0x05328f171b8c1463eaFDACCA478D9EE6a1d923F8
-      - POLYSWARMD_HOST=polyswarmd
-      - POLYSWARMD_PORT=31337
-      - POLYSWARMD_URI=http://polyswarmd:31337
-    command:
-      - "dockerize"
-      - "-wait"
-      - "tcp://polyswarmd:31337"
-      - "-timeout"
-      - "1000s"
-      - "microengine"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
       - "--testing"
       - "10"
       - "--keyfile"
@@ -67,4 +51,28 @@ services:
       - "--password"
       - "password"
       - "--backend"
-      - "scratch"
+      - "verbatim"
+        #  microengine:
+        #    image: "polyswarm/microengine"
+        #    depends_on:
+        #      - polyswarmd
+        #    environment:
+        #      - ADDRESS=0x05328f171b8c1463eaFDACCA478D9EE6a1d923F8
+        #      - POLYSWARMD_HOST=polyswarmd
+        #      - POLYSWARMD_PORT=31337
+        #      - POLYSWARMD_URI=http://polyswarmd:31337
+        #    command:
+        #      - "dockerize"
+        #      - "-wait"
+        #      - "tcp://polyswarmd:31337"
+        #      - "-timeout"
+        #      - "1000s"
+        #      - "microengine"
+        #      - "--testing"
+        #      - "10"
+        #      - "--keyfile"
+        #      - "docker/keyfile"
+        #      - "--password"
+        #      - "password"
+        #      - "--backend"
+        #      - "scratch"
