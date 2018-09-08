@@ -15,6 +15,8 @@ services:
       - "1000s"
       - "python"
       - "ambassador.py"
+      - "--testing"
+      - "10"
   arbiter:
     image: "polyswarm/arbiter"
     depends_on:

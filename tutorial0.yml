@@ -15,7 +15,7 @@ services:
       - "1000s"
       - "python"
       - "ambassador.py"
-      - "--restart"
+      - "--testing"
       - "10"
   arbiter:
     image: "polyswarm/arbiter"
