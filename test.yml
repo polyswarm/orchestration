@@ -24,6 +24,7 @@ services:
       - "ambassador.py"
       - "--testing"
       - "10"
+      - "--offers"
   arbiter:
     image: "polyswarm/arbiter"
     depends_on:
