@@ -12,6 +12,8 @@ services:
       - polyswarmd
     environment:
       - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/keyfile
+      - PASSWORD=password
     command:
       - "dockerize"
       - "-wait"
@@ -24,10 +26,6 @@ services:
       - "--insecure-transport"
       - "--testing"
       - "10"
-      - "--keyfile"
-      - "docker/keyfile"
-      - "--password"
-      - "password"
       - "--backend"
       - "filesystem"
   arbiter:
@@ -36,6 +34,8 @@ services:
       - polyswarmd
     environment:
       - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/keyfile
+      - PASSWORD=password
     command:
       - "dockerize"
       - "-wait"
@@ -48,10 +48,6 @@ services:
       - "--insecure-transport"
       - "--testing"
       - "10"
-      - "--keyfile"
-      - "docker/keyfile"
-      - "--password"
-      - "password"
       - "--backend"
       - "verbatim"
   microengine:
@@ -60,6 +56,8 @@ services:
       - polyswarmd
     environment:
       - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/keyfile
+      - PASSWORD=password
     command:
       - "dockerize"
       - "-wait"
@@ -72,9 +70,5 @@ services:
       - "--insecure-transport"
       - "--testing"
       - "10"
-      - "--keyfile"
-      - "docker/keyfile"
-      - "--password"
-      - "password"
       - "--backend"
-      - "scratch"
+      - "eicar"
