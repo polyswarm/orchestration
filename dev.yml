@@ -8,11 +8,18 @@ services:
             - contracts
         environment:
             - PYTHONUNBUFFERED=1
+            - CONSUL=http://consul:8500
         ports:
             - "31337:31337"
         command: ["./scripts/wait_for_truffle.sh", "-w", "polyswarmd"]
         volumes:
             - "./:/etc/polyswarmd"
+    consul:
+        image: "consul"
+        logging:
+            driver: none
+        ports:
+            - "8500:8500"
     contracts:
         depends_on:
             - homechain
@@ -22,6 +29,7 @@ services:
             - geth=homechain
             - HOME_CHAIN=http://homechain:8545
             - SIDE_CHAIN=http://sidechain:8545
+            - CONSUL=http://consul:8500
             - IPFS=http://ipfs:5001
             - OPTIONS=/config/users.yml
             - POLYSWARMD_HOST=polyswarmd
