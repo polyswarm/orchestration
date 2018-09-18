@@ -7,12 +7,12 @@
 version: '3'
 services:
   ambassador:
-    image: "polyswarm/ambassador"
+    image: "polyswarm/polyswarm-client"
     depends_on:
       - polyswarmd
     environment:
       - PYTHONUNBUFFERED=1
-      - KEYFILE=docker/keyfile
+      - KEYFILE=docker/ambassador_keyfile
       - PASSWORD=password
     command:
       - "dockerize"
@@ -29,12 +29,12 @@ services:
       - "--backend"
       - "filesystem"
   arbiter:
-    image: "polyswarm/arbiter"
+    image: "polyswarm/polyswarm-client"
     depends_on:
       - polyswarmd
     environment:
       - PYTHONUNBUFFERED=1
-      - KEYFILE=docker/keyfile
+      - KEYFILE=docker/arbiter_keyfile
       - PASSWORD=password
     command:
       - "dockerize"
@@ -51,12 +51,12 @@ services:
       - "--backend"
       - "verbatim"
   microengine:
-    image: "polyswarm/microengine"
+    image: "polyswarm/polyswarm-client"
     depends_on:
       - polyswarmd
     environment:
       - PYTHONUNBUFFERED=1
-      - KEYFILE=docker/keyfile
+      - KEYFILE=docker/microengine_keyfile
       - PASSWORD=password
     command:
       - "dockerize"
