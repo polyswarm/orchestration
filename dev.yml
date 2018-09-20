@@ -9,6 +9,7 @@ services:
         environment:
             - PYTHONUNBUFFERED=1
             - CONSUL=http://consul:8500
+            - POLY_SIDECHAIN_NAME=gamma
         ports:
             - "31337:31337"
         command: ["./scripts/wait_for_truffle.sh", "-w", "polyswarmd"]
@@ -34,6 +35,7 @@ services:
             - OPTIONS=/config/users.yml
             - POLYSWARMD_HOST=polyswarmd
             - POLYSWARMD_PORT=31337
+            - POLY_SIDECHAIN_NAME=gamma
         volumes:
             - "./:/build"
             - "./config:/config"
