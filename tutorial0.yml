@@ -1,22 +1,27 @@
 version: '3'
 services:
   ambassador:
-    image: "polyswarm/ambassador"
+    image: "polyswarm/polyswarm-client"
     depends_on:
       - polyswarmd
     environment:
-      - ADDRESS=0x4b1867c484871926109e3c47668d5c0938ca3527
-      - POLYSWARMD_HOST=polyswarmd:31337
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/ambassador_keyfile
+      - PASSWORD=password
     command:
       - "dockerize"
       - "-wait"
       - "tcp://polyswarmd:31337"
       - "-timeout"
       - "1000s"
-      - "python"
-      - "ambassador.py"
+      - "ambassador"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
       - "--testing"
       - "10"
+      - "--backend"
+      - "eicar"
   arbiter:
     image: "polyswarm/polyswarm-client"
     depends_on:
@@ -39,15 +44,14 @@ services:
       - "10"
       - "--backend"
       - "verbatim"
-  microengine:
-    image: "polyswarm/microengine"
+  tutorial:
+    image: "polyswarm/polyswarm-client"
     depends_on:
       - polyswarmd
     environment:
-      - ADDRESS=0x05328f171b8c1463eaFDACCA478D9EE6a1d923F8
-      - POLYSWARMD_HOST=polyswarmd
-      - POLYSWARMD_PORT=31337
-      - POLYSWARMD_ADDR=http://polyswarmd:31337
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/microengine_keyfile
+      - PASSWORD=password
       - CLAMD_HOST=clamav
       - CLAMD_PORT=3310
     command:
@@ -57,9 +61,10 @@ services:
       - "-timeout"
       - "1000s"
       - "microengine"
-      - "--keyfile"
-      - "docker/keyfile"
-      - "--password"
-      - "password"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "--testing"
+      - "10"
       - "--backend"
       - "eicar"
