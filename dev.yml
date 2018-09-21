@@ -12,7 +12,6 @@ services:
             - POLY_SIDECHAIN_NAME=gamma
         ports:
             - "31337:31337"
-        command: ["./scripts/wait_for_truffle.sh", "-w", "polyswarmd"]
         volumes:
             - "./:/etc/polyswarmd"
     consul:
