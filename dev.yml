@@ -12,8 +12,6 @@ services:
             - POLY_SIDECHAIN_NAME=gamma
         ports:
             - "31337:31337"
-        volumes:
-            - "./:/etc/polyswarmd"
     consul:
         image: "consul"
         logging:
@@ -36,7 +34,6 @@ services:
             - POLYSWARMD_PORT=31337
             - POLY_SIDECHAIN_NAME=gamma
         volumes:
-            - "./:/build"
             - "./config:/config"
         command: ["./scripts/migrate_and_create_config.sh"]
     homechain:
