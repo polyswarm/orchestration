@@ -25,7 +25,7 @@ services:
       - "polyswarmd:31337"
       - "--insecure-transport"
       - "--testing"
-      - "10"
+      - "${POLY_TEST_BOUNTY_N:-5}"
       - "--backend"
       - "filesystem"
   arbiter:
@@ -47,7 +47,7 @@ services:
       - "polyswarmd:31337"
       - "--insecure-transport"
       - "--testing"
-      - "10"
+      - "${POLY_TEST_BOUNTY_N:-5}"
       - "--backend"
       - "verbatim"
   microengine:
@@ -69,6 +69,6 @@ services:
       - "polyswarmd:31337"
       - "--insecure-transport"
       - "--testing"
-      - "10"
+      - "${POLY_TEST_BOUNTY_N:-5}"
       - "--backend"
       - "eicar"
