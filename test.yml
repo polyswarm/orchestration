@@ -6,6 +6,34 @@
 #
 version: '3'
 services:
+  consumer:
+    image: "polyswarm/consumer"
+    depends_on:
+      - polyswarmd
+      - redis
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/consumer_keyfile
+      - PASSWORD=password
+      - HOST=consumer
+      - PORT=31336
+      - CHAIN=home
+    ports:
+      - "31336:31336"
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-wait"
+      - "tcp://redis:6379"
+      - "-timeout"
+      - "1000s"
+      - "consumer"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--redis-addr"
+      - "redis:6379"
+      - "--insecure-transport"
   ambassador:
     image: "polyswarm/polyswarm-client"
     depends_on:

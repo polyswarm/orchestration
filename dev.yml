@@ -18,6 +18,8 @@ services:
             driver: none
         ports:
             - "8500:8500"
+    redis:
+        image: "redis"
     contracts:
         depends_on:
             - homechain
