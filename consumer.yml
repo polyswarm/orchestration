@@ -1,0 +1,13 @@
+version: '3'
+services:
+    consumer:
+        image: "polyswarm/consumer"
+        ports:
+            - "12322:12322"
+        command: ["consumer", "--host", "localhost"]
+    redis:
+        image: "redis"
+        environment:
+            - ALLOW_EMPTY_PASSWORD=yes
+        ports:
+            - '6379:6379'
