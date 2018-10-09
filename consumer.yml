@@ -8,7 +8,13 @@ services:
       - PYTHONUNBUFFERED=1
       - KEYFILE=docker/consumer_keyfile
       - PASSWORD=password
-    command: ["consumer"]
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://redis:6379"
+      - "-timeout"
+      - "1000s"
+      - "consumer"
   redis:
     image: "redis"
     environment:
