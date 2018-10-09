@@ -44,7 +44,7 @@ services:
       - "10"
       - "--backend"
       - "verbatim"
-  tutorial:
+  microengine:
     image: "polyswarm/polyswarm-client"
     depends_on:
       - polyswarmd
