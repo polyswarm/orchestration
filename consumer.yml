@@ -12,9 +12,16 @@ services:
       - "dockerize"
       - "-wait"
       - "tcp://redis:6379"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
       - "-timeout"
       - "1000s"
       - "consumer"
+      - "--redis-addr"
+      - "redis:6379"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
   redis:
     image: "redis"
     environment:
