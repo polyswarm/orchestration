@@ -28,6 +28,8 @@ services:
       - "10"
       - "--backend"
       - "filesystem"
+    networks:
+        - polyswarmd
   arbiter:
     image: "polyswarm/polyswarm-client"
     depends_on:
@@ -50,6 +52,8 @@ services:
       - "10"
       - "--backend"
       - "verbatim"
+    networks:
+        - polyswarmd
   microengine:
     image: "polyswarm/polyswarm-client"
     depends_on:
@@ -72,3 +76,5 @@ services:
       - "10"
       - "--backend"
       - "eicar"
+    networks:
+        - polyswarmd
