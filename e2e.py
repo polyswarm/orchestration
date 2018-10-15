@@ -71,7 +71,9 @@ def build_repos():
 		os.chdir(os.path.join(ab_path,repo))
 		logging.info(Fore.MAGENTA+"building "+ Fore.GREEN+ str(repo)+Style.RESET_ALL)
 		cmd = 'docker build -q -t polyswarm/{0} -f docker/Dockerfile .'.format(repo)
-		subprocess.run(cmd.split())
+        print_current_mem = 'cat /proc/meminfo'
+        subprocess.run(cmd.split())
+        subprocess.run(print_current_mem)
 
 def dock_clean():
 	logging.info(Fore.MAGENTA + "Getting rid of dead containers and images for"+Fore.GREEN+" you")
