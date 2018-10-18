@@ -8,6 +8,7 @@ services:
       - PYTHONUNBUFFERED=1
       - KEYFILE=docker/consumer_keyfile
       - PASSWORD=password
+      - CHAIN=home
     command:
       - "dockerize"
       - "-wait"
@@ -22,6 +23,7 @@ services:
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
       - "--insecure-transport"
+      - "--no-auth"
   redis:
     image: "redis"
     environment:
