@@ -1,14 +1,30 @@
 version: '3'
 services:
-  consumer:
+  consumer_frontend:
     image: "polyswarm/consumer"
     ports:
       - "12322:12322"
     environment:
       - PYTHONUNBUFFERED=1
+      - REDIS_ADDR=redis:6379
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://redis:6379"
+      - "-timeout"
+      - "1000s"
+      - "consumer"
+      - "frontend"
+      - "--no-auth"
+
+  consumer_backend:
+    image: "polyswarm/consumer"
+    environment:
+      - PYTHONUNBUFFERED=1
       - KEYFILE=docker/consumer_keyfile
       - PASSWORD=password
       - CHAIN=home
+      - REDIS_ADDR=redis:6379
     command:
       - "dockerize"
       - "-wait"
@@ -18,12 +34,10 @@ services:
       - "-timeout"
       - "1000s"
       - "consumer"
-      - "--redis-addr"
-      - "redis:6379"
+      - "backend"
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
       - "--insecure-transport"
-      - "--no-auth"
   redis:
     image: "redis"
     environment:
