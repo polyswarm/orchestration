@@ -14,7 +14,7 @@ services:
       - "-timeout"
       - "1000s"
       - "consumer"
-      - "endpoint"
+      - "frontend"
       - "--no-auth"
 
   consumer_backend:
@@ -34,7 +34,7 @@ services:
       - "-timeout"
       - "1000s"
       - "consumer"
-      - "ambassador"
+      - "backend"
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
       - "--insecure-transport"
