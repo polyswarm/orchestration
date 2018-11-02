@@ -1,2 +1,10 @@
+homechain_contracts_owner: "0xf870491ea0f53f67846eecb57855284d8270284d"
+sidechain_contracts_owner: "0x34e583cf9c1789c3141538eec77d9f0b8f7e89f2"
 arbiters:
   - "0xf870491ea0f53f67846eecb57855284d8270284d"
+relay:
+  fee_wallet: "0x34e583cf9c1789c3141538eec77d9f0b8f7e89f2"
+  verifiers:
+    - "0x1215242c8f0eff0a4ac06ea3d73caa78279fb9bb"
+    - "0x05328f171b8c1463eafdacca478d9ee6a1d923f8"
+    - "0x085ba02c35555fecb8147820135fdfec10eed85a"
