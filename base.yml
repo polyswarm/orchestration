@@ -79,6 +79,20 @@ services:
         volumes:
             - "ipfs-export:/export"
             - "ipfs-data:/data/ipfs"
+    relay:
+        <<: *deploy_clause
+        image: "polyswarm/relay"
+        depends_on:
+            - homechain
+            - sidechain
+            - contracts
+            - consul
+        environment:
+            - RELAY_ACCOUNT=0x2b813f079e7e3cf24eeb1ac5853bd6f9118a04ea
+            - RELAY_PASSWORD=password
+            - RUST_LOG=polyswarm_relay=info
+            - POLY_SIDECHAIN_NAME=gamma
+            - CONSUL=http://consul:8500
 volumes:
     ipfs-export:
     ipfs-data:
