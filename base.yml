@@ -50,8 +50,8 @@ services:
         environment:
             - NETWORK_ID=1337
             - CHAIN_NAME=homechain
-        # logging:
-        #     driver: none
+        logging:
+            driver: none
         ports:
             - "30303:30303"
             - "8545:8545"
@@ -63,8 +63,8 @@ services:
         environment:
             - NETWORK_ID=1338
             - CHAIN_NAME=sidechain
-        # logging:
-        #     driver: none
+        logging:
+            driver: none
         ports:
             - "30304:30303"
             - "7545:8545"
