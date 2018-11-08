@@ -6,7 +6,7 @@ services:
       - polyswarmd
     environment:
       - PYTHONUNBUFFERED=1
-      - KEYFILE=docker/ambassador_keyfile
+      - KEYFILE=docker/balance_keyfile
       - PASSWORD=password
     command:
       - "dockerize"
@@ -33,7 +33,7 @@ services:
       - polyswarmd
     environment:
       - PYTHONUNBUFFERED=1
-      - KEYFILE=docker/ambassador_keyfile
+      - KEYFILE=docker/balance_keyfile
       - PASSWORD=password
     command:
       - "dockerize"
