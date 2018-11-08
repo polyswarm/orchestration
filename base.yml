@@ -3,6 +3,7 @@ services:
     polyswarmd:
         image: "polyswarm/polyswarmd"
         mem_limit: 512m
+        restart: always
         depends_on:
             - homechain
             - ipfs
