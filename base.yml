@@ -2,6 +2,7 @@ version: '2'
 services:
     polyswarmd:
         image: "polyswarm/polyswarmd"
+        restart: always
         depends_on:
             - homechain
             - ipfs
