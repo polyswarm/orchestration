@@ -10,7 +10,6 @@ services:
       - MALICIOUS_BOOTSTRAP_URL=https://corpora.sfo2.digitaloceanspaces.com/pdfs-1000
       - ARCHIVE_PASSWORD=icanhazmalware
       - POLY_SIDECHAIN_NAME=gamma
-      - DD_API_KEY=${DD_API_KEY}
     command:
       - "dockerize"
       - "-wait"
@@ -25,6 +24,8 @@ services:
       - "local_keyfile"
       - "--poly-work"
       - "local"
+      - "--dd-api-key"
+      - "${DD_API_KEY}"
       - "--log-format"
       - "json"
       - "--testing"
