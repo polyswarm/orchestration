@@ -2,6 +2,7 @@ homechain_contracts_owner: "0xf870491ea0f53f67846eecb57855284d8270284d"
 sidechain_contracts_owner: "0x34e583cf9c1789c3141538eec77d9f0b8f7e89f2"
 arbiters:
   - "0xf870491ea0f53f67846eecb57855284d8270284d"
+free: yes
 relay:
   fee_wallet: "0x34e583cf9c1789c3141538eec77d9f0b8f7e89f2"
   verifiers:
