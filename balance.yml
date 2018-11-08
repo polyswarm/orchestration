@@ -42,7 +42,7 @@ services:
       - "-timeout"
       - "1000s"
       - "balancemanager"
-      - "withdraw"
+      - "deposit"
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
       - "--insecure-transport"
