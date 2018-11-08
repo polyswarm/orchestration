@@ -17,8 +17,8 @@ init()
 #globals
 ab_path = os.path.abspath(args.dir)
 PS_GITHUB_URL = 'https://github.com/polyswarm/'
-PS_REPOS  = ["polyswarmd", "ambassador", "arbiter", "contracts", "priv-testnet", "microengine","orchestration"]
-ALL_REPOS = ["polyswarmd", "ambassador", "arbiter", "contracts", "priv-testnet", "microengine","orchestration"]
+PS_REPOS  = ["polyswarmd", "ambassador", "arbiter", "contracts", "priv-testnet", "microengine","orchestration", "relay"]
+ALL_REPOS = ["polyswarmd", "ambassador", "arbiter", "contracts", "priv-testnet", "microengine","orchestration", "relay"]
 stars='***********************************'
 
 def discover_ps_repos():
