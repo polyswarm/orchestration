@@ -1,0 +1,29 @@
+version: '3'
+services:
+  polymon:
+    image: "polyswarm/poly-mon"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PASSWORD=password
+      - PYTHON_UNBUFFERED=1
+      - MALICIOUS_BOOTSTRAP_URL=https://corpora.sfo2.digitaloceanspaces.com/pdfs-1000
+      - ARCHIVE_PASSWORD=icanhazmalware
+      - POLY_SIDECHAIN_NAME=gamma
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "poly-mon"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "--keyfile"
+      - "local_keyfile"
+      - "--poly-work"
+      - "local"
+      - "--log-format"
+      - "json"
+      - "--testing"
