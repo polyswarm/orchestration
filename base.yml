@@ -1,12 +1,8 @@
-version: '3'
+version: '2'
 services:
     polyswarmd:
-        <<: &deploy_clause
-          deploy:
-            resources:
-              reservations:
-                memory: 512M
         image: "polyswarm/polyswarmd"
+        mem_limit: 512m
         depends_on:
             - homechain
             - ipfs
@@ -18,18 +14,18 @@ services:
         ports:
             - "31337:31337"
     consul:
-        <<: *deploy_clause
         image: "consul"
+        mem_limit: 512m
         logging:
             driver: none
         ports:
             - "8500:8500"
     contracts:
-        <<: *deploy_clause
         depends_on:
             - homechain
             - sidechain
         image: "polyswarm/contracts"
+        mem_limit: 512m
         environment:
             - geth=homechain
             - HOME_CHAIN=http://homechain:8545
@@ -44,8 +40,8 @@ services:
             - "./config:/config"
         command: ["./scripts/migrate_and_create_config.sh"]
     homechain:
-        <<: *deploy_clause
         image: "polyswarm/priv-testnet"
+        mem_limit: 512m
         entrypoint: /bin/sh
         environment:
             - NETWORK_ID=1337
@@ -57,8 +53,8 @@ services:
             - "8545:8545"
         command: ["run_geth.sh", "--nodiscover", "--maxpeers", "0", "--syncmode", "full", "--targetgaslimit", "94000000", "--rpc", "--rpcaddr", "0.0.0.0", "--rpcapi", "eth,web3,personal,net", "--rpcvhosts", "*", "--ws", "--wsaddr", "0.0.0.0", "--wsapi", "eth,web3,personal,net", "--wsorigins", "*", "--etherbase", "0x34e583cf9c1789c3141538eec77d9f0b8f7e89f2", "--unlock", "4b1867c484871926109e3c47668d5c0938ca3527,d87e4662653042c5da11711542c11f2c8433612d,4f10166cafd7856ea946124927d4478fdd18d979,f0243d9b2e332d7072dd4b143a881b3f135f380c,f870491ea0f53f67846eecb57855284d8270284d,34e583cf9c1789c3141538eec77d9f0b8f7e89f2,2b813f079e7e3cf24eeb1ac5853bd6f9118a04ea,1215242c8f0eff0a4ac06ea3d73caa78279fb9bb,05328f171b8c1463eafdacca478d9ee6a1d923f8,085ba02c35555fecb8147820135fdfec10eed85a", "--password", "password.txt", "--mine", "--verbosity", "4"]
     sidechain:
-        <<: *deploy_clause
         image: "polyswarm/priv-testnet"
+        mem_limit: 512m
         entrypoint: /bin/sh
         environment:
             - NETWORK_ID=1338
@@ -70,8 +66,8 @@ services:
             - "7545:8545"
         command: ["run_geth.sh", "--nodiscover", "--maxpeers", "0", "--syncmode", "full", "--targetgaslimit", "94000000", "--rpc", "--rpcaddr", "0.0.0.0", "--rpcapi", "eth,web3,personal,net", "--rpcvhosts", "*", "--ws", "--wsaddr", "0.0.0.0", "--wsapi", "eth,web3,personal,net", "--wsorigins", "*", "--etherbase", "0x34e583cf9c1789c3141538eec77d9f0b8f7e89f2", "--unlock", "4b1867c484871926109e3c47668d5c0938ca3527,d87e4662653042c5da11711542c11f2c8433612d,4f10166cafd7856ea946124927d4478fdd18d979,f0243d9b2e332d7072dd4b143a881b3f135f380c,f870491ea0f53f67846eecb57855284d8270284d,34e583cf9c1789c3141538eec77d9f0b8f7e89f2,2b813f079e7e3cf24eeb1ac5853bd6f9118a04ea,1215242c8f0eff0a4ac06ea3d73caa78279fb9bb,05328f171b8c1463eafdacca478d9ee6a1d923f8,085ba02c35555fecb8147820135fdfec10eed85a", "--password", "password.txt", "--mine", "--verbosity", "4"]
     ipfs:
-        <<: *deploy_clause
         image: "ipfs/go-ipfs"
+        mem_limit: 512m
         environment:
             - IPFS_BIND_IP=0.0.0.0
         ports:
@@ -80,8 +76,8 @@ services:
             - "ipfs-export:/export"
             - "ipfs-data:/data/ipfs"
     relay0:
-        <<: *deploy_clause
         image: "polyswarm/relay"
+        mem_limit: 512m
         depends_on:
             - homechain
             - sidechain
@@ -94,8 +90,8 @@ services:
             - POLY_SIDECHAIN_NAME=gamma
             - CONSUL=http://consul:8500
     relay1:
-        <<: *deploy_clause
         image: "polyswarm/relay"
+        mem_limit: 512m
         depends_on:
             - homechain
             - sidechain
@@ -108,8 +104,8 @@ services:
             - POLY_SIDECHAIN_NAME=gamma
             - CONSUL=http://consul:8500
     relay2:
-        <<: *deploy_clause
         image: "polyswarm/relay"
+        mem_limit: 512m
         depends_on:
             - homechain
             - sidechain
