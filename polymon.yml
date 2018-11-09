@@ -26,5 +26,5 @@ services:
       - "${DD_API_KEY}"
       - "--log-format"
       - "json"
-      - "--no-health-checks"
+      - "--local-testing"
 
