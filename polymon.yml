@@ -22,11 +22,9 @@ services:
       - "--insecure-transport"
       - "--keyfile"
       - "local_keyfile"
-      - "--poly-work"
-      - "dev"
       - "--dd-api-key"
       - "${DD_API_KEY}"
       - "--log-format"
       - "json"
-      - "--testing"
+      - "--no-health-checks"
 
