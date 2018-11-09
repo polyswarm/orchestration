@@ -6,6 +6,6 @@ free: yes
 relay:
   fee_wallet: "0x34e583cf9c1789c3141538eec77d9f0b8f7e89f2"
   verifiers:
-    - "0x1215242c8f0eff0a4ac06ea3d73caa78279fb9bb"
-    - "0x05328f171b8c1463eafdacca478d9ee6a1d923f8"
+    - "0xd87e4662653042c5da11711542c11f2c8433612d"
+    - "0x4f10166cafd7856ea946124927d4478fdd18d979"
     - "0x085ba02c35555fecb8147820135fdfec10eed85a"
