@@ -21,6 +21,8 @@ services:
             driver: none
         ports:
             - "8500:8500"
+        volumes:
+            - "consul-data:/consul/data"
     contracts:
         depends_on:
             - homechain
@@ -33,7 +35,7 @@ services:
             - SIDE_CHAIN=http://sidechain:8545
             - CONSUL=http://consul:8500
             - IPFS=http://ipfs:5001
-            - OPTIONS=/config/users.yml
+            - OPTIONS=/config/contracts.yml
             - POLYSWARMD_HOST=polyswarmd
             - POLYSWARMD_PORT=31337
             - POLY_SIDECHAIN_NAME=gamma
