@@ -9,8 +9,8 @@ services:
       - PYTHON_UNBUFFERED=1
       - MALICIOUS_BOOTSTRAP_URL=https://corpora.sfo2.digitaloceanspaces.com/pdfs-1000
       - ARCHIVE_PASSWORD=icanhazmalware
-      - POLY_SIDECHAIN_NAME=gamma
-      - POLY_WORK=stage
+      - POLY_SIDECHAIN_NAME=${POLY_SIDECHAIN_NAME}
+      - POLY_WORK=${POLY_WORK}
     command:
       - "dockerize"
       - "-wait"
