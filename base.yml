@@ -89,6 +89,17 @@ services:
             - RUST_LOG=polyswarm_relay=trace
             - POLY_SIDECHAIN_NAME=gamma
             - CONSUL=http://consul:8500
+        command:
+          - "dockerize"
+          - "-wait"
+          - "tcp://homechain:8546"
+          - "-wait"
+          - "tcp://sidechain:8546"
+          - "-timeout"
+          - "1000s"
+          - "polyswarm-relay"
+          - "--config"
+          - "docker/config.toml"
     relay1:
         <<: *deploy_clause
         image: "polyswarm/relay"
@@ -103,6 +114,17 @@ services:
             - RUST_LOG=polyswarm_relay=trace
             - POLY_SIDECHAIN_NAME=gamma
             - CONSUL=http://consul:8500
+        command:
+          - "dockerize"
+          - "-wait"
+          - "tcp://homechain:8546"
+          - "-wait"
+          - "tcp://sidechain:8546"
+          - "-timeout"
+          - "1000s"
+          - "polyswarm-relay"
+          - "--config"
+          - "docker/config.toml"
     relay2:
         <<: *deploy_clause
         image: "polyswarm/relay"
@@ -117,6 +139,17 @@ services:
             - RUST_LOG=polyswarm_relay=trace
             - POLY_SIDECHAIN_NAME=gamma
             - CONSUL=http://consul:8500
+        command:
+          - "dockerize"
+          - "-wait"
+          - "tcp://homechain:8546"
+          - "-wait"
+          - "tcp://sidechain:8546"
+          - "-timeout"
+          - "1000s"
+          - "polyswarm-relay"
+          - "--config"
+          - "docker/config.toml"
 volumes:
     ipfs-export:
     ipfs-data:
