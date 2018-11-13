@@ -50,8 +50,6 @@ services:
         environment:
             - NETWORK_ID=1337
             - CHAIN_NAME=homechain
-        logging:
-            driver: none
         ports:
             - "30303:30303"
             - "8545:8545"
@@ -63,8 +61,6 @@ services:
         environment:
             - NETWORK_ID=1338
             - CHAIN_NAME=sidechain
-        logging:
-            driver: none
         ports:
             - "30304:30303"
             - "7545:8545"
@@ -88,11 +84,22 @@ services:
             - contracts
             - consul
         environment:
-            - RELAY_ACCOUNT=0x1215242c8f0eff0a4ac06ea3d73caa78279fb9bb
+            - RELAY_ACCOUNT=0xd87e4662653042c5da11711542c11f2c8433612d
             - RELAY_PASSWORD=password
             - RUST_LOG=polyswarm_relay=trace
             - POLY_SIDECHAIN_NAME=gamma
             - CONSUL=http://consul:8500
+        command:
+          - "dockerize"
+          - "-wait"
+          - "tcp://homechain:8546"
+          - "-wait"
+          - "tcp://sidechain:8546"
+          - "-timeout"
+          - "1000s"
+          - "polyswarm-relay"
+          - "--config"
+          - "docker/config.toml"
     relay1:
         <<: *deploy_clause
         image: "polyswarm/relay"
@@ -102,11 +109,22 @@ services:
             - contracts
             - consul
         environment:
-            - RELAY_ACCOUNT=0x05328f171b8c1463eafdacca478d9ee6a1d923f8
+            - RELAY_ACCOUNT=0x4f10166cafd7856ea946124927d4478fdd18d979
             - RELAY_PASSWORD=password
             - RUST_LOG=polyswarm_relay=trace
             - POLY_SIDECHAIN_NAME=gamma
             - CONSUL=http://consul:8500
+        command:
+          - "dockerize"
+          - "-wait"
+          - "tcp://homechain:8546"
+          - "-wait"
+          - "tcp://sidechain:8546"
+          - "-timeout"
+          - "1000s"
+          - "polyswarm-relay"
+          - "--config"
+          - "docker/config.toml"
     relay2:
         <<: *deploy_clause
         image: "polyswarm/relay"
@@ -121,6 +139,17 @@ services:
             - RUST_LOG=polyswarm_relay=trace
             - POLY_SIDECHAIN_NAME=gamma
             - CONSUL=http://consul:8500
+        command:
+          - "dockerize"
+          - "-wait"
+          - "tcp://homechain:8546"
+          - "-wait"
+          - "tcp://sidechain:8546"
+          - "-timeout"
+          - "1000s"
+          - "polyswarm-relay"
+          - "--config"
+          - "docker/config.toml"
 volumes:
     ipfs-export:
     ipfs-data:
