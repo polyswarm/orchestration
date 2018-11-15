@@ -75,7 +75,7 @@ services:
         environment:
             - RELAY_ACCOUNT=0xd87e4662653042c5da11711542c11f2c8433612d
             - RELAY_PASSWORD=password
-            - RELAY_POLY_SIDECHAIN_NAME=gamma
+            - RELAY_COMMUNITY=gamma
             - RELAY_CONSUL=http://consul:8500
             - RUST_LOG=polyswarm_relay=trace
         command:
@@ -99,7 +99,7 @@ services:
         environment:
             - RELAY_ACCOUNT=0x4f10166cafd7856ea946124927d4478fdd18d979
             - RELAY_PASSWORD=password
-            - RELAY_POLY_SIDECHAIN_NAME=gamma
+            - RELAY_COMMUNITY=gamma
             - RELAY_CONSUL=http://consul:8500
             - RUST_LOG=polyswarm_relay=trace
         command:
@@ -123,7 +123,7 @@ services:
         environment:
             - RELAY_ACCOUNT=0x085ba02c35555fecb8147820135fdfec10eed85a
             - RELAY_PASSWORD=password
-            - RELAY_POLY_SIDECHAIN_NAME=gamma
+            - RELAY_COMMUNITY=gamma
             - RELAY_CONSUL=http://consul:8500
             - RUST_LOG=polyswarm_relay=trace
         command:
