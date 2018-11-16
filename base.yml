@@ -88,7 +88,7 @@ services:
           - "1000s"
           - "polyswarm-relay"
           - "--config"
-          - "docker/config.toml"
+          - "config.toml"
     relay1:
         image: "polyswarm/relay"
         depends_on:
@@ -112,7 +112,7 @@ services:
           - "1000s"
           - "polyswarm-relay"
           - "--config"
-          - "docker/config.toml"
+          - "config.toml"
     relay2:
         image: "polyswarm/relay"
         depends_on:
@@ -136,7 +136,7 @@ services:
           - "1000s"
           - "polyswarm-relay"
           - "--config"
-          - "docker/config.toml"
+          - "config.toml"
 volumes:
     ipfs-export:
     ipfs-data:
