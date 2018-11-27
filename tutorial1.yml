@@ -22,6 +22,28 @@ services:
       - "10"
       - "--backend"
       - "eicar"
+      - "--chains"
+      - "side"
+  deposit-ambassador:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/ambassador_keyfile
+      - PASSWORD=password
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "balancemanager"
+      - "deposit"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "20000000"
   arbiter:
     image: "polyswarm/polyswarm-client"
     depends_on:
@@ -44,6 +66,28 @@ services:
       - "10"
       - "--backend"
       - "verbatim"
+      - "--chains"
+      - "side"
+  deposit-arbiter:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/arbiter_keyfile
+      - PASSWORD=password
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "balancemanager"
+      - "deposit"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "20000000"
   microengine:
     image: "polyswarm/polyswarm-client"
     depends_on:
@@ -68,6 +112,28 @@ services:
       - "10"
       - "--backend"
       - "clamav"
+      - "--chains"
+      - "side"
+  deposit-microengine:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/microengine_keyfile
+      - PASSWORD=password
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "balancemanager"
+      - "deposit"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "20000000"
   clamav:
     image: "mkodockx/docker-clamav"
     ports:
