@@ -87,6 +87,7 @@ services:
             - contractor
             - consul
         environment:
+            - RELAY_KEYDIR=/keyfiles
             - RELAY_ACCOUNT=0xd87e4662653042c5da11711542c11f2c8433612d
             - RELAY_PASSWORD=password
             - RELAY_COMMUNITY=gamma
@@ -111,6 +112,7 @@ services:
             - contractor
             - consul
         environment:
+            - RELAY_KEYDIR=/keyfiles
             - RELAY_ACCOUNT=0x4f10166cafd7856ea946124927d4478fdd18d979
             - RELAY_PASSWORD=password
             - RELAY_COMMUNITY=gamma
@@ -135,6 +137,7 @@ services:
             - contractor
             - consul
         environment:
+            - RELAY_KEYDIR=/keyfiles
             - RELAY_ACCOUNT=0x085ba02c35555fecb8147820135fdfec10eed85a
             - RELAY_PASSWORD=password
             - RELAY_COMMUNITY=gamma
