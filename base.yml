@@ -10,6 +10,7 @@ services:
             - PYTHONUNBUFFERED=1
             - CONSUL=http://consul:8500
             - POLY_SIDECHAIN_NAME=gamma
+            - DB_URI=postgresql://postgres:example@postgres:5432
         ports:
             - "31337:31337"
     consul:
@@ -33,12 +34,15 @@ services:
             - POLYSWARMD_HOST=polyswarmd
             - POLYSWARMD_PORT=31337
             - POLY_SIDECHAIN_NAME=gamma
+            - DB=postgresql://postgres:example@postgres:5432
         volumes:
             - "./config:/config"
         command: ["./scripts/migrate_and_create_config.sh"]
     homechain:
         image: "polyswarm/priv-testnet"
         entrypoint: /bin/sh
+        logging:
+          driver: none
         environment:
             - NETWORK_ID=1337
             - CHAIN_NAME=homechain
@@ -49,6 +53,8 @@ services:
     sidechain:
         image: "polyswarm/priv-testnet"
         entrypoint: /bin/sh
+        logging:
+          driver: none
         environment:
             - NETWORK_ID=1338
             - CHAIN_NAME=sidechain
@@ -137,6 +143,14 @@ services:
           - "polyswarm-relay"
           - "--config"
           - "config.toml"
+    postgres:
+        image: "postgres"
+        ports:
+          - 5432:5432
+    apikeymgmt:
+        image: "polyswarm/api-key-management"
+        depends_on:
+          - postgres
 volumes:
     ipfs-export:
     ipfs-data:
