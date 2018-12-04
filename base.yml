@@ -5,7 +5,7 @@ services:
         depends_on:
             - homechain
             - ipfs
-            - contracts
+            - contractor
         environment:
             - PYTHONUNBUFFERED=1
             - CONSUL=http://consul:8500
@@ -18,7 +18,7 @@ services:
             driver: none
         ports:
             - "8500:8500"
-    contracts:
+    contractor:
         depends_on:
             - consul
             - postgres
@@ -71,7 +71,7 @@ services:
         depends_on:
             - homechain
             - sidechain
-            - contracts
+            - contractor
             - consul
         environment:
             - RELAY_ACCOUNT=0xd87e4662653042c5da11711542c11f2c8433612d
@@ -95,7 +95,7 @@ services:
         depends_on:
             - homechain
             - sidechain
-            - contracts
+            - contractor
             - consul
         environment:
             - RELAY_ACCOUNT=0x4f10166cafd7856ea946124927d4478fdd18d979
@@ -119,7 +119,7 @@ services:
         depends_on:
             - homechain
             - sidechain
-            - contracts
+            - contractor
             - consul
         environment:
             - RELAY_ACCOUNT=0x085ba02c35555fecb8147820135fdfec10eed85a
