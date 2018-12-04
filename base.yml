@@ -20,22 +20,23 @@ services:
             - "8500:8500"
     contracts:
         depends_on:
+            - consul
+            - postgres
             - homechain
             - sidechain
-        image: "polyswarm/contracts"
+        image: "polyswarm/contractor"
         environment:
-            - geth=homechain
-            - HOME_CHAIN=http://homechain:8545
-            - SIDE_CHAIN=http://sidechain:8545
-            - CONSUL=http://consul:8500
-            - IPFS=http://ipfs:5001
-            - OPTIONS=/config/contracts.yml
-            - POLYSWARMD_HOST=polyswarmd
-            - POLYSWARMD_PORT=31337
-            - POLY_SIDECHAIN_NAME=gamma
+            - CONFIG=/config/contracts.yml
+            - COMMUNITY=gamma
+            - HOMECHAIN=homechain
+            - SIDECHAIN=sidechain
+            - KEYFILE=/config/deploy_key
+            - PASSWORD=password
+            - DB_URI=postgresql://postgres:example@postgres:5432
+            - IPFS_URI=http://ipfs:5001
+            - CONSUL_URI=http://consul:8500
         volumes:
             - "./config:/config"
-        command: ["./scripts/migrate_and_create_config.sh"]
     homechain:
         image: "polyswarm/priv-testnet"
         entrypoint: /bin/sh
@@ -137,6 +138,13 @@ services:
           - "polyswarm-relay"
           - "--config"
           - "config.toml"
+    postgres:
+          image: "postgres"
+          ports:
+              - 5432:5432
+          volumes:
+            - "postgres-data:/var/lib/postgresql/data" 
 volumes:
     ipfs-export:
     ipfs-data:
+    postgres-data:
