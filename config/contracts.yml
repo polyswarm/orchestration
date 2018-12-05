@@ -34,8 +34,6 @@ contracts:
       - "0xD87e4662653042C5Da11711542C11f2c8433612d"
       - "0x1215242C8F0EfF0A4Ac06ea3d73Caa78279fB9BB"
   BountyRegistry:
-    # 7 days in blocks
-    arbiter_vote_window: 40320
     arbiters:
       - "0xF870491ea0F53F67846Eecb57855284D8270284D"
   ERC20Relay:
