@@ -37,6 +37,19 @@ services:
             - CONSUL_URI=http://consul:8500
         volumes:
             - "./config:/config"
+        command:
+            - "dockerize"
+            - "-wait"
+            - "tcp://homechain:8546"
+            - "-wait"
+            - "tcp://sidechain:8546"
+            - "-wait"
+            - "tcp://consul:8500"
+            - "-wait"
+            - "tcp://postgres:5432"
+            - "-timeout"
+            - "1000s"
+            - "./docker/deploy.sh"
     homechain:
         image: "polyswarm/priv-testnet"
         entrypoint: /bin/sh
@@ -143,7 +156,7 @@ services:
           ports:
               - 5432:5432
           volumes:
-            - "postgres-data:/var/lib/postgresql/data" 
+            - "postgres-data:/var/lib/postgresql/data"
 volumes:
     ipfs-export:
     ipfs-data:
