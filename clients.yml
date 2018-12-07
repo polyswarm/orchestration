@@ -14,6 +14,7 @@ services:
       - PYTHONUNBUFFERED=1
       - KEYFILE=docker/ambassador_keyfile
       - PASSWORD=password
+      - BOUNTY_TEST_DURATION_BLOCKS=15
     command:
       - "dockerize"
       - "-wait"
