@@ -5,7 +5,7 @@ services:
         depends_on:
             - homechain
             - ipfs
-            - contracts
+            - contractor
         environment:
             - PYTHONUNBUFFERED=1
             - CONSUL=http://consul:8500
@@ -18,24 +18,38 @@ services:
             driver: none
         ports:
             - "8500:8500"
-    contracts:
+    contractor:
         depends_on:
+            - consul
+            - postgres
             - homechain
             - sidechain
-        image: "polyswarm/contracts"
+        image: "polyswarm/contractor"
         environment:
-            - geth=homechain
-            - HOME_CHAIN=http://homechain:8545
-            - SIDE_CHAIN=http://sidechain:8545
-            - CONSUL=http://consul:8500
-            - IPFS=http://ipfs:5001
-            - OPTIONS=/config/contracts.yml
-            - POLYSWARMD_HOST=polyswarmd
-            - POLYSWARMD_PORT=31337
-            - POLY_SIDECHAIN_NAME=gamma
+            - CONFIG=/config/contracts.yml
+            - COMMUNITY=gamma
+            - HOMECHAIN=homechain
+            - SIDECHAIN=sidechain
+            - KEYFILE=/config/deploy_key
+            - PASSWORD=password
+            - DB_URI=postgresql://postgres:example@postgres:5432
+            - IPFS_URI=http://ipfs:5001
+            - CONSUL_URI=http://consul:8500
         volumes:
             - "./config:/config"
-        command: ["./scripts/migrate_and_create_config.sh"]
+        command:
+            - "dockerize"
+            - "-wait"
+            - "tcp://homechain:8546"
+            - "-wait"
+            - "tcp://sidechain:8546"
+            - "-wait"
+            - "tcp://consul:8500"
+            - "-wait"
+            - "tcp://postgres:5432"
+            - "-timeout"
+            - "1000s"
+            - "./docker/deploy.sh"
     homechain:
         image: "polyswarm/priv-testnet"
         entrypoint: /bin/sh
@@ -45,7 +59,7 @@ services:
         ports:
             - "30303:30303"
             - "8545:8545"
-        command: ["run_geth.sh", "--nodiscover", "--maxpeers", "0", "--syncmode", "full", "--targetgaslimit", "94000000", "--rpc", "--rpcaddr", "0.0.0.0", "--rpcapi", "eth,web3,personal,net,debug", "--rpcvhosts", "*", "--ws", "--wsaddr", "0.0.0.0", "--wsapi", "eth,web3,personal,net,debug", "--wsorigins", "*", "--etherbase", "0x34e583cf9c1789c3141538eec77d9f0b8f7e89f2", "--unlock", "4b1867c484871926109e3c47668d5c0938ca3527,d87e4662653042c5da11711542c11f2c8433612d,4f10166cafd7856ea946124927d4478fdd18d979,f0243d9b2e332d7072dd4b143a881b3f135f380c,f870491ea0f53f67846eecb57855284d8270284d,34e583cf9c1789c3141538eec77d9f0b8f7e89f2,2b813f079e7e3cf24eeb1ac5853bd6f9118a04ea,1215242c8f0eff0a4ac06ea3d73caa78279fb9bb,05328f171b8c1463eafdacca478d9ee6a1d923f8,085ba02c35555fecb8147820135fdfec10eed85a", "--password", "password.txt", "--mine", "--verbosity", "4"]
+        command: ["./run_geth.sh", "--targetgaslimit", "94000000", "--rpc", "--rpcaddr", "0.0.0.0", "--rpcapi", "eth,web3,personal,net,debug", "--rpcvhosts", "*", "--ws", "--wsaddr", "0.0.0.0", "--wsapi", "eth,web3,personal,net,debug", "--wsorigins", "*", "--etherbase", "0x34e583cf9c1789c3141538eec77d9f0b8f7e89f2", "--unlock", "4b1867c484871926109e3c47668d5c0938ca3527,d87e4662653042c5da11711542c11f2c8433612d,4f10166cafd7856ea946124927d4478fdd18d979,f0243d9b2e332d7072dd4b143a881b3f135f380c,f870491ea0f53f67846eecb57855284d8270284d,34e583cf9c1789c3141538eec77d9f0b8f7e89f2,2b813f079e7e3cf24eeb1ac5853bd6f9118a04ea,1215242c8f0eff0a4ac06ea3d73caa78279fb9bb,05328f171b8c1463eafdacca478d9ee6a1d923f8,085ba02c35555fecb8147820135fdfec10eed85a", "--password", "password.txt"]
     sidechain:
         image: "polyswarm/priv-testnet"
         entrypoint: /bin/sh
@@ -55,7 +69,7 @@ services:
         ports:
             - "30304:30303"
             - "7545:8545"
-        command: ["run_geth.sh", "--nodiscover", "--maxpeers", "0", "--syncmode", "full", "--targetgaslimit", "94000000", "--rpc", "--rpcaddr", "0.0.0.0", "--rpcapi", "eth,web3,personal,net,debug", "--rpcvhosts", "*", "--ws", "--wsaddr", "0.0.0.0", "--wsapi", "eth,web3,personal,net,debug", "--wsorigins", "*", "--etherbase", "0x34e583cf9c1789c3141538eec77d9f0b8f7e89f2", "--unlock", "4b1867c484871926109e3c47668d5c0938ca3527,d87e4662653042c5da11711542c11f2c8433612d,4f10166cafd7856ea946124927d4478fdd18d979,f0243d9b2e332d7072dd4b143a881b3f135f380c,f870491ea0f53f67846eecb57855284d8270284d,34e583cf9c1789c3141538eec77d9f0b8f7e89f2,2b813f079e7e3cf24eeb1ac5853bd6f9118a04ea,1215242c8f0eff0a4ac06ea3d73caa78279fb9bb,05328f171b8c1463eafdacca478d9ee6a1d923f8,085ba02c35555fecb8147820135fdfec10eed85a", "--password", "password.txt", "--mine", "--verbosity", "4"]
+        command: ["./run_geth.sh", "--targetgaslimit", "94000000", "--rpc", "--rpcaddr", "0.0.0.0", "--rpcapi", "eth,web3,personal,net,debug", "--rpcvhosts", "*", "--ws", "--wsaddr", "0.0.0.0", "--wsapi", "eth,web3,personal,net,debug", "--wsorigins", "*", "--etherbase", "0x34e583cf9c1789c3141538eec77d9f0b8f7e89f2", "--unlock", "4b1867c484871926109e3c47668d5c0938ca3527,d87e4662653042c5da11711542c11f2c8433612d,4f10166cafd7856ea946124927d4478fdd18d979,f0243d9b2e332d7072dd4b143a881b3f135f380c,f870491ea0f53f67846eecb57855284d8270284d,34e583cf9c1789c3141538eec77d9f0b8f7e89f2,2b813f079e7e3cf24eeb1ac5853bd6f9118a04ea,1215242c8f0eff0a4ac06ea3d73caa78279fb9bb,05328f171b8c1463eafdacca478d9ee6a1d923f8,085ba02c35555fecb8147820135fdfec10eed85a", "--password", "password.txt"]
     ipfs:
         image: "ipfs/go-ipfs"
         environment:
@@ -70,7 +84,7 @@ services:
         depends_on:
             - homechain
             - sidechain
-            - contracts
+            - contractor
             - consul
         environment:
             - RELAY_ACCOUNT=0xd87e4662653042c5da11711542c11f2c8433612d
@@ -94,7 +108,7 @@ services:
         depends_on:
             - homechain
             - sidechain
-            - contracts
+            - contractor
             - consul
         environment:
             - RELAY_ACCOUNT=0x4f10166cafd7856ea946124927d4478fdd18d979
@@ -118,7 +132,7 @@ services:
         depends_on:
             - homechain
             - sidechain
-            - contracts
+            - contractor
             - consul
         environment:
             - RELAY_ACCOUNT=0x085ba02c35555fecb8147820135fdfec10eed85a
@@ -137,6 +151,13 @@ services:
           - "polyswarm-relay"
           - "--config"
           - "config.toml"
+    postgres:
+          image: "postgres"
+          ports:
+              - 5432:5432
+          volumes:
+            - "postgres-data:/var/lib/postgresql/data"
 volumes:
     ipfs-export:
     ipfs-data:
+    postgres-data:
