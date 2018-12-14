@@ -30,7 +30,8 @@ services:
             - COMMUNITY=gamma
             - HOMECHAIN=homechain
             - SIDECHAIN=sidechain
-            - KEYFILE=/config/deploy_key
+            - HOMECHAIN_KEYFILE=/config/deploy_key
+            - SIDECHAIN_KEYFILE=/config/deploy_key
             - PASSWORD=password
             - DB_URI=postgresql://postgres:example@postgres:5432
             - IPFS_URI=http://ipfs:5001
