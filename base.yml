@@ -9,7 +9,7 @@ services:
         environment:
             - PYTHONUNBUFFERED=1
             - CONSUL=http://consul:8500
-            - POLY_SIDECHAIN_NAME=gamma
+            - POLY_COMMUNITY_NAME=gamma
         ports:
             - "31337:31337"
     consul:
