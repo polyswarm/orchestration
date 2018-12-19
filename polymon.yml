@@ -24,7 +24,7 @@ services:
       - "--keyfile"
       - "local_keyfile"
       - "--dd-api-key"
-      - "${DD_API_KEY}"
+      - "${PS_DATADOG_APIKEY_AGENT}"
       - "--log-format"
       - "json"
       - "--local-testing"
