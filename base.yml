@@ -35,6 +35,7 @@ services:
             - PASSWORD=password
             - DB_URI=postgresql://postgres:example@postgres:5432
             - IPFS_URI=http://ipfs:5001
+            - ARTIFACT_LIMIT=256
             - CONSUL_URI=http://consul:8500
         volumes:
             - "./config:/config"
