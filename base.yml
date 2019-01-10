@@ -10,8 +10,19 @@ services:
             - PYTHONUNBUFFERED=1
             - CONSUL=http://consul:8500
             - POLY_COMMUNITY_NAME=gamma
+            - PROFILER_DB_URI=postgresql://postgres:example@postgres:5432
         ports:
             - "31337:31337"
+    profiler:
+        image: "polyswarm/flask-profiler"
+        depends_on:
+            - polyswarmd
+        environment:
+            - DB_URI=postgresql://postgres:example@postgres:5432
+            - AUTH_URI=admin
+            - AUTH_PASSWORD=admin
+        ports:
+            - "5000:5000"
     consul:
         image: "consul"
         logging:
@@ -36,6 +47,7 @@ services:
             - DB_URI=postgresql://postgres:example@postgres:5432
             - IPFS_URI=http://ipfs:5001
             - ARTIFACT_LIMIT=256
+            - PROFILER_ENABLED=1
             - CONSUL_URI=http://consul:8500
         volumes:
             - "./config:/config"
