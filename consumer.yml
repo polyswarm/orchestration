@@ -7,16 +7,22 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - REDIS_ADDR=redis:6379
+      - KEYFILE=docker/consumer_keyfile
     command:
       - "dockerize"
       - "-wait"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
       - "tcp://redis:6379"
       - "-timeout"
       - "1000s"
       - "consumer"
       - "frontend"
-      - "--no-auth"
-
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
   consumer_backend:
     image: "polyswarm/consumer"
     environment:
