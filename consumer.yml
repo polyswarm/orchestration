@@ -11,10 +11,10 @@ services:
     command:
       - "dockerize"
       - "-wait"
-      - "-wait"
       - "tcp://polyswarmd:31337"
       - "-timeout"
       - "1000s"
+      - "-wait"
       - "tcp://redis:6379"
       - "-timeout"
       - "1000s"
