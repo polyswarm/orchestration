@@ -29,7 +29,7 @@ services:
       - PYTHONUNBUFFERED=1
       - KEYFILE=docker/consumer_keyfile
       - PASSWORD=password
-      - CHAIN=home
+      - CHAIN=side
       - REDIS_ADDR=redis:6379
     command:
       - "dockerize"
@@ -44,6 +44,26 @@ services:
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
       - "--insecure-transport"
+  deposit-consumer:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/consumer_keyfile
+      - PASSWORD=password
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "balancemanager"
+      - "deposit"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "20000000"
   redis:
     image: "redis"
     environment:
