@@ -59,6 +59,8 @@ services:
       - "-timeout"
       - "1000s"
       - "balancemanager"
+      - "--log"
+      - "info"
       - "deposit"
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
