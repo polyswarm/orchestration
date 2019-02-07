@@ -1,0 +1,174 @@
+version: '2'
+services:
+  ambassador:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/ambassador_keyfile
+      - PASSWORD=password
+      - BOUNTY_TEST_DURATION_BLOCKS=15
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "ambassador"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "--testing"
+      - "10"
+      - "--backend"
+      - "filesystem"
+      - "--chains"
+      - "side"
+  deposit-ambassador:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/ambassador_keyfile
+      - PASSWORD=password
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "balancemanager"
+      - "deposit"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "20000000"
+  arbiter:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/arbiter_keyfile
+      - PASSWORD=password
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "arbiter"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "--testing"
+      - "10"
+      - "--backend"
+      - "verbatim"
+      - "--chains"
+      - "side"
+  deposit-arbiter:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/arbiter_keyfile
+      - PASSWORD=password
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "balancemanager"
+      - "deposit"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "20000000"
+  microengine:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/microengine_keyfile
+      - PASSWORD=password
+      - REDIS_ADDR=redis:6379
+      - QUEUE=redis
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "microengine"
+      - "--log"
+      - "INFO"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "--testing"
+      - "10"
+      - "--backend"
+      - "producer"
+      - "--chains"
+      - "side"
+  deposit-microengine:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/microengine_keyfile
+      - PASSWORD=password
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-wait"
+      - "tcp://redis:6379"
+      - "-timeout"
+      - "1000s"
+      - "balancemanager"
+      - "deposit"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "20000000"
+  redis:
+    image: "redis"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '6379:6379'
+  worker:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - REDIS_ADDR=redis:6379
+      - QUEUE=redis
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-wait"
+      - "tcp://redis:6379"
+      - "-timeout"
+      - "1000s"
+      - "worker"
+      - "--log"
+      - "INFO"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "--testing"
+      - "10"
+      - "--backend"
+      - "eicar"
+
