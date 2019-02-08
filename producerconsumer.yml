@@ -144,7 +144,7 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     ports:
-      - '6379:6379'
+      - "6379:6379"
   worker:
     image: "polyswarm/polyswarm-client"
     depends_on:
@@ -153,6 +153,8 @@ services:
       - PYTHONUNBUFFERED=1
       - REDIS_ADDR=redis:6379
       - QUEUE=redis
+      - CLAMD_HOST=clamav
+      - CLAMD_PORT=3310
     command:
       - "dockerize"
       - "-wait"
@@ -170,5 +172,8 @@ services:
       - "--testing"
       - "10"
       - "--backend"
-      - "eicar"
-
+      - "clamav"
+  clamav:
+    image: "mkodockx/docker-clamav"
+    ports:
+      - "3310:3310"
