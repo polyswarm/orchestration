@@ -7,10 +7,20 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - REDIS_ADDR=redis:6379
+      - CONSUMER_ES_HOST=elasticsearch:9200
+      - CONSUMER_S3_ENDPOINT=http://minio:9000/
+      - CONSUMER_S3_BUCKET=testing
+      - CONSUMER_S3_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
+      - CONSUMER_S3_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+      - POLY_WORK=testing
     command:
       - "dockerize"
       - "-wait"
       - "tcp://redis:6379"
+      - "-wait"
+      - "tcp://minio:9000"
+      - "-wait"
+      - "http://elasticsearch:9200"
       - "-timeout"
       - "1000s"
       - "consumer"
@@ -38,7 +48,7 @@ services:
       - "polyswarmd:31337"
       - "--insecure-transport"
       - "--community"
-      - "test"
+      - "gamma"
   deposit-consumer:
     image: "polyswarm/polyswarm-client"
     depends_on:
@@ -67,3 +77,19 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
     ports:
       - '6379:6379'
+  elasticsearch:
+    image: "docker.elastic.co/elasticsearch/elasticsearch:6.6.0" 
+    environment:
+        - "discovery.type=single-node"
+    ports:
+        - "9200"
+  minio:
+    image: minio/minio:latest
+    entrypoint: sh
+    command: -c 'mkdir -p /export/testing && /usr/bin/minio server /export'
+    environment:
+          MINIO_ACCESS_KEY: "AKIAIOSFODNN7EXAMPLE"
+          MINIO_SECRET_KEY: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+
+    ports:
+        - "9000:9000"
