@@ -13,6 +13,7 @@ services:
       - CONSUMER_S3_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
       - CONSUMER_S3_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
       - POLY_WORK=testing
+      - DEFAULT_COMMUNITY=gamma
     command:
       - "dockerize"
       - "-wait"
