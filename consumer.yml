@@ -13,7 +13,7 @@ services:
       - CONSUMER_S3_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
       - CONSUMER_S3_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
       - POLY_WORK=testing
-      - DEFAULT_COMMUNITY=gamma
+      - DEFAULT_COMMUNITY=test
     command:
       - "dockerize"
       - "-wait"
@@ -27,6 +27,8 @@ services:
       - "consumer"
       - "frontend"
       - "--insecure-transport"
+      - "--default-community"
+      - "test"
   consumer_backend:
     image: "polyswarm/consumer"
     environment:
@@ -49,7 +51,7 @@ services:
       - "polyswarmd:31337"
       - "--insecure-transport"
       - "--community"
-      - "gamma"
+      - "test"
   deposit-consumer:
     image: "polyswarm/polyswarm-client"
     depends_on:
