@@ -21,7 +21,12 @@ services:
       - "tcp://minio:9000"
       - "-timeout"
       - "1000s"
-      - "artifact-index"
+      - "gunicorn"
+      - "--bind"
+      - "0.0.0.0:9696"
+      - "--workers"
+      - "4"
+      - "artifact_index"
   postgres:
     image: "postgres:11.2"
     environment:
