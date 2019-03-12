@@ -24,8 +24,8 @@ services:
       - "gunicorn"
       - "--bind"
       - "0.0.0.0:9696"
-      - "--workers"
-      - "4"
+      - "-k"
+      - "gevent"
       - "artifact_index"
   postgres:
     image: "postgres:11.2"
