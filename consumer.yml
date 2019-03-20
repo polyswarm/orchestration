@@ -14,6 +14,7 @@ services:
       - CONSUMER_S3_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
       - POLY_WORK=testing
       - DEFAULT_COMMUNITY=gamma
+      - ARTIFACT_INDEX_URI=http://artifact_index:9696
     command:
       - "dockerize"
       - "-wait"

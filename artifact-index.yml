@@ -6,7 +6,7 @@ services:
       - "9696:9696"
     environment:
       - PYTHONUNBUFFERED=1
-      - DB_URI=postgresql://postgres:password@postgres:5432/postgres
+      - DB_URI=postgresql://postgres:password@aipostgres:5432/postgres
       - POLY_WORK=testing
       - DEFAULT_COMMUNITY=gamma
       - AI_S3_ENDPOINT=http://minio:9000/
@@ -25,7 +25,7 @@ services:
       - "1000s"
       - "./docker/run.sh"
       - "-m"
-  postgres:
+  aipostgres:
     image: "postgres:11.2"
     environment:
       - POSTGRES_PASSWORD=password
