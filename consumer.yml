@@ -71,7 +71,7 @@ services:
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
       - "--insecure-transport"
-      - "20000000"
+      - "100000"
   redis:
     image: "redis"
     environment:
