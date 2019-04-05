@@ -153,8 +153,6 @@ services:
       - PYTHONUNBUFFERED=1
       - REDIS_ADDR=redis:6379
       - QUEUE=redis
-      - CLAMD_HOST=clamav
-      - CLAMD_PORT=3310
     command:
       - "dockerize"
       - "-wait"
@@ -166,9 +164,6 @@ services:
       - "worker"
       - "--log"
       - "INFO"
-      - "--polyswarmd-addr"
-      - "polyswarmd:31337"
-      - "--insecure-transport"
       - "--testing"
       - "10"
       - "--backend"
