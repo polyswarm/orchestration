@@ -47,7 +47,7 @@ services:
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
       - "--insecure-transport"
-      - "20000000"
+      - "100000"
   arbiter:
     image: "polyswarm/polyswarm-client"
     depends_on:
@@ -95,7 +95,7 @@ services:
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
       - "--insecure-transport"
-      - "20000000"
+      - "10000000"
   microengine:
     image: "polyswarm/polyswarm-client"
     depends_on:
@@ -145,7 +145,7 @@ services:
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
       - "--insecure-transport"
-      - "20000000"
+      - "100000"
   clamav:
     image: "mkodockx/docker-clamav"
     ports:

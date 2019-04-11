@@ -8,6 +8,7 @@ services:
       - PYTHONUNBUFFERED=1
       - KEYFILE=docker/ambassador_keyfile
       - PASSWORD=password
+      - BOUNTY_TEST_DURATION_BLOCKS=15
     command:
       - "dockerize"
       - "-wait"
@@ -15,15 +16,13 @@ services:
       - "-timeout"
       - "1000s"
       - "ambassador"
-      - "--log"
-      - "info"
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
       - "--insecure-transport"
       - "--testing"
       - "10"
       - "--backend"
-      - "eicar"
+      - "filesystem"
       - "--chains"
       - "side"
   deposit-ambassador:
@@ -41,8 +40,6 @@ services:
       - "-timeout"
       - "1000s"
       - "balancemanager"
-      - "--log"
-      - "info"
       - "deposit"
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
@@ -63,8 +60,6 @@ services:
       - "-timeout"
       - "1000s"
       - "arbiter"
-      - "--log"
-      - "info"
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
       - "--insecure-transport"
@@ -89,8 +84,6 @@ services:
       - "-timeout"
       - "1000s"
       - "balancemanager"
-      - "--log"
-      - "info"
       - "deposit"
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
@@ -104,8 +97,8 @@ services:
       - PYTHONUNBUFFERED=1
       - KEYFILE=docker/microengine_keyfile
       - PASSWORD=password
-      - CLAMD_HOST=clamav
-      - CLAMD_PORT=3310
+      - REDIS_ADDR=redis:6379
+      - QUEUE=redis
     command:
       - "dockerize"
       - "-wait"
@@ -114,14 +107,14 @@ services:
       - "1000s"
       - "microengine"
       - "--log"
-      - "info"
+      - "INFO"
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
       - "--insecure-transport"
       - "--testing"
       - "10"
       - "--backend"
-      - "multi"
+      - "producer"
       - "--chains"
       - "side"
   deposit-microengine:
@@ -136,17 +129,42 @@ services:
       - "dockerize"
       - "-wait"
       - "tcp://polyswarmd:31337"
+      - "-wait"
+      - "tcp://redis:6379"
       - "-timeout"
       - "1000s"
       - "balancemanager"
-      - "--log"
-      - "info"
       - "deposit"
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
       - "--insecure-transport"
       - "100000"
-  clamav:
-    image: "mkodockx/docker-clamav"
+  redis:
+    image: "redis"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
     ports:
-        - 3310:3310
+      - "6379:6379"
+  worker:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - REDIS_ADDR=redis:6379
+      - QUEUE=redis
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-wait"
+      - "tcp://redis:6379"
+      - "-timeout"
+      - "1000s"
+      - "worker"
+      - "--log"
+      - "INFO"
+      - "--testing"
+      - "10"
+      - "--backend"
+      - "eicar"
