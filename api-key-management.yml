@@ -1,0 +1,17 @@
+version: '2'
+services:
+    apikeymgmt:
+      image: "polyswarm/api-key-management"
+      environment:
+        - DB_URI=postgresql://postgres:password@postgres:5432
+        - POSTGRES_HOST=postgres
+      depends_on:
+        - postgres
+      ports:
+        - 5000:5000
+      command:
+        - "dockerize"
+        - "-wait"
+        - "tcp://postgres:5432"
+        - "./docker/run.sh"
+        - "-mt"

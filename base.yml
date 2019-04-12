@@ -162,21 +162,6 @@ services:
               - 5432:5432
           volumes:
             - "postgres-data:/var/lib/postgresql/data"
-    apikeymgmt:
-      image: "polyswarm/api-key-management"
-      environment:
-        - DB_URI=postgresql://postgres:password@postgres:5432
-        - POSTGRES_HOST=postgres
-      depends_on:
-        - postgres
-      ports:
-        - 5000:5000
-      command:
-        - "dockerize"
-        - "-wait"
-        - "tcp://postgres:5432"
-        - "./docker/run.sh"
-        - "-mt"
 
 
 volumes:
