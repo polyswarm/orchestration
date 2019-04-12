@@ -1,0 +1,56 @@
+version: '2'
+services:
+
+  arbiter:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/arbiter_keyfile
+      - PASSWORD=password
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "arbiter"
+      - "--log"
+      - "info"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "--testing"
+      - "10"
+      - "--backend"
+      - "verbatim"
+      - "--chains"
+      - "side"
+  deposit-arbiter:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/arbiter_keyfile
+      - PASSWORD=password
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "balancemanager"
+      - "--log"
+      - "info"
+      - "deposit"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "10000000"
+
+networks:
+  default:
+    external:
+      name: orchestration_default

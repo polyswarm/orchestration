@@ -1,0 +1,64 @@
+version: '2'
+services:
+
+  microengine:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/microengine_keyfile
+      - PASSWORD=password
+      - CLAMD_HOST=clamav
+      - CLAMD_PORT=3310
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "microengine"
+      - "--log"
+      - "info"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "--testing"
+      - "10"
+      - "--backend"
+      - "clamav"
+      - "--chains"
+      - "side"
+
+  deposit-microengine:
+    image: "polyswarm/polyswarm-client"
+    depends_on:
+      - polyswarmd
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/microengine_keyfile
+      - PASSWORD=password
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "balancemanager"
+      - "--log"
+      - "info"
+      - "deposit"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "100000"
+
+  clamav-daemon:
+    image: "mkodockx/docker-clamav"
+    ports:
+        - 3310:3310
+
+networks:
+  default:
+    external:
+      name: orchestration_default
