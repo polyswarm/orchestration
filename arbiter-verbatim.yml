@@ -27,7 +27,8 @@ services:
       - "verbatim"
       - "--chains"
       - "side"
-  deposit-arbiter:
+
+  deposit-arbiter-verbatim:
     image: "polyswarm/polyswarm-client"
     depends_on:
       - polyswarmd

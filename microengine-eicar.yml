@@ -28,7 +28,7 @@ services:
       - "--chains"
       - "side"
 
-  deposit-microengine:
+  deposit-microengine-eicar:
     image: "polyswarm/polyswarm-client"
     depends_on:
       - polyswarmd

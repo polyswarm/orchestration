@@ -28,7 +28,7 @@ services:
       - "--chains"
       - "side"
 
-  deposit-ambassador:
+  deposit-ambassador-eicar:
     image: "polyswarm/polyswarm-client"
     depends_on:
       - polyswarmd
