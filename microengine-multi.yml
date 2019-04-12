@@ -1,7 +1,7 @@
 version: '2'
 services:
 
-  microengine:
+  microengine-multi:
     image: "polyswarm/polyswarm-client"
     depends_on:
       - polyswarmd

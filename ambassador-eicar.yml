@@ -1,7 +1,7 @@
 version: '2'
 services:
 
-  ambassador:
+  ambassador-eicar:
     image: "polyswarm/polyswarm-client"
     depends_on:
       - polyswarmd
