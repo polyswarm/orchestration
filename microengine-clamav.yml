@@ -3,8 +3,6 @@ services:
 
   microengine-clamav:
     image: "polyswarm/polyswarm-client"
-    depends_on:
-      - polyswarmd
     environment:
       - PYTHONUNBUFFERED=1
       - KEYFILE=docker/microengine_keyfile
@@ -32,8 +30,6 @@ services:
 
   deposit-microengine-clamav:
     image: "polyswarm/polyswarm-client"
-    depends_on:
-      - polyswarmd
     environment:
       - PYTHONUNBUFFERED=1
       - KEYFILE=docker/microengine_keyfile

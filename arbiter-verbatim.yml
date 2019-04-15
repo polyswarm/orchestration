@@ -3,8 +3,6 @@ services:
 
   arbiter-verbatim:
     image: "polyswarm/polyswarm-client"
-    depends_on:
-      - polyswarmd
     environment:
       - PYTHONUNBUFFERED=1
       - KEYFILE=docker/arbiter_keyfile
@@ -30,8 +28,6 @@ services:
 
   deposit-arbiter-verbatim:
     image: "polyswarm/polyswarm-client"
-    depends_on:
-      - polyswarmd
     environment:
       - PYTHONUNBUFFERED=1
       - KEYFILE=docker/arbiter_keyfile
