@@ -1,7 +1,7 @@
 version: '2'
 services:
   ambassador:
-    image: "polyswarm/polyswarm-client"
+    image: "polyswarm/polyswarm-client:latest"
     depends_on:
       - polyswarmd
     environment:
@@ -26,7 +26,7 @@ services:
       - "--chains"
       - "side"
   deposit-ambassador:
-    image: "polyswarm/polyswarm-client"
+    image: "polyswarm/polyswarm-client:latest"
     depends_on:
       - polyswarmd
     environment:
@@ -46,7 +46,7 @@ services:
       - "--insecure-transport"
       - "100000"
   arbiter:
-    image: "polyswarm/polyswarm-client"
+    image: "polyswarm/polyswarm-client:latest"
     depends_on:
       - polyswarmd
     environment:
@@ -70,7 +70,7 @@ services:
       - "--chains"
       - "side"
   deposit-arbiter:
-    image: "polyswarm/polyswarm-client"
+    image: "polyswarm/polyswarm-client:latest"
     depends_on:
       - polyswarmd
     environment:
@@ -90,7 +90,7 @@ services:
       - "--insecure-transport"
       - "10000000"
   microengine:
-    image: "polyswarm/polyswarm-client"
+    image: "polyswarm/polyswarm-client:latest"
     depends_on:
       - polyswarmd
     environment:
@@ -118,7 +118,7 @@ services:
       - "--chains"
       - "side"
   deposit-microengine:
-    image: "polyswarm/polyswarm-client"
+    image: "polyswarm/polyswarm-client:latest"
     depends_on:
       - polyswarmd
     environment:
@@ -146,7 +146,7 @@ services:
     ports:
       - "6379:6379"
   worker:
-    image: "polyswarm/polyswarm-client"
+    image: "polyswarm/polyswarm-client:latest"
     depends_on:
       - polyswarmd
     environment:
