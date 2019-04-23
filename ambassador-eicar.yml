@@ -1,0 +1,53 @@
+version: '2'
+services:
+
+  ambassador-eicar:
+    image: "polyswarm/polyswarm-client"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/ambassador_keyfile
+      - PASSWORD=password
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "ambassador"
+      - "--log"
+      - "info"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "--testing"
+      - "10"
+      - "--backend"
+      - "eicar"
+      - "--chains"
+      - "side"
+
+  deposit-ambassador-eicar:
+    image: "polyswarm/polyswarm-client"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - KEYFILE=docker/ambassador_keyfile
+      - PASSWORD=password
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-timeout"
+      - "1000s"
+      - "balancemanager"
+      - "--log"
+      - "info"
+      - "deposit"
+      - "--polyswarmd-addr"
+      - "polyswarmd:31337"
+      - "--insecure-transport"
+      - "100000"
+
+networks:
+  default:
+    external:
+      name: orchestration_default
