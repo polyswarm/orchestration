@@ -1,7 +1,7 @@
 version: '2'
 services:
   polymon-global:
-    image: "polyswarm/poly-mon:test"
+    image: "polyswarm/poly-mon"
     depends_on:
       - polyswarmd
     environment:
