@@ -10,6 +10,7 @@ services:
       - PYTHONASYNCIODEBUG=1
       - LOG_LEVEL=DEBUG
       - LOG_FORMAT=text
+      - PORTAL_BACKEND_ADDR=https://portal-backend.lb.kb.polyswarm.network
     command:
       - "dockerize"
       - "-wait"
@@ -35,7 +36,7 @@ services:
       - "stage"
 
   polymon-community:
-    image: "polyswarm/poly-mon:test"
+    image: "polyswarm/poly-mon"
     depends_on:
       - polyswarmd
     environment:
