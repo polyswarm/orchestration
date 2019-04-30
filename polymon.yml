@@ -10,7 +10,6 @@ services:
       - PYTHONASYNCIODEBUG=1
       - LOG_LEVEL=DEBUG
       - LOG_FORMAT=text
-      - PORTAL_BACKEND_ADDR=https://portal-backend.lb.kb.polyswarm.network
     command:
       - "dockerize"
       - "-wait"
