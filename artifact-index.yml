@@ -14,6 +14,7 @@ services:
       - AI_S3_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
       - AI_S3_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
       - AI_SECRET_KEY=TOOMANYSECRETS
+      - AI_REDIS_URI=redis://redis_ai
       - FLASK_WORKERS=4
     command:
       - "dockerize"
@@ -45,3 +46,12 @@ services:
         - "discovery.type=single-node"
     ports:
         - "9200"
+  redis_ai:
+    image: "redis"
+  worker:
+    image: "polyswarm/artifact-index"
+    environment:
+      - AI_REDIS_URI=redis://redis_ai
+      - CELERY_TASK_SERIALIZER=msgpack
+    command: bash -c "celery worker -A artifact_index.celery --broker=${AI_REDIS_URI} --result-backend=${AI_REDIS_URI} --loglevel=info --uid 65534"
+      
