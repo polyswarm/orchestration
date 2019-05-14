@@ -11,6 +11,7 @@ services:
       - DEFAULT_COMMUNITY=gamma
       - AI_S3_ENDPOINT=http://minio:9000/
       - AI_S3_BUCKET=testing
+      - AI_S3_MALWARE_BUCKET=testing
       - AI_S3_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
       - AI_S3_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
       - AI_SECRET_KEY=TOOMANYSECRETS
@@ -55,5 +56,14 @@ services:
       - AI_REDIS_URI=redis://redis_ai
       - AI_URI=http://artifact_index:9696
       - AI_WORKER_KEY=TOOMANYWORKERS
-    command: bash -c "celery worker -A artifact_index.celery --broker=${AI_REDIS_URI} --result-backend=${AI_REDIS_URI} --loglevel=info --uid 65534"
+      - AI_POOL_SIZE=4
+    command: bash -c "celery worker -A artifact_index.celery --broker=$${AI_REDIS_URI} --result-backend=$${AI_REDIS_URI} --loglevel=info"
+  worker2:
+    image: "polyswarm/artifact-index"
+    environment:
+      - AI_REDIS_URI=redis://redis_ai
+      - AI_URI=http://artifact_index:9696
+      - AI_WORKER_KEY=TOOMANYWORKERS
+      - AI_POOL_SIZE=4
+    command: bash -c "celery worker -A artifact_index.celery --broker=$${AI_REDIS_URI} --result-backend=$${AI_REDIS_URI} --loglevel=info"
       
