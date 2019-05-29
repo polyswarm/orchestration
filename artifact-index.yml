@@ -19,6 +19,7 @@ services:
       - AI_STATS_FREQUENCY=15
       - AI_REDIS_URI=redis://redis_ai
       - FLASK_WORKERS=4
+      - AI_HISTORICAL_SCAN_FREQUENCY=10
     command:
       - "dockerize"
       - "-wait"
@@ -32,13 +33,19 @@ services:
   local_worker:
     image: "polyswarm/artifact-index"
     environment:
+      - DEFAULT_COMMUNITY=gamma
       - DB_URI=postgresql://postgres:password@aipostgres:5432/postgres
       - AI_REDIS_URI=redis://redis_ai
       - AI_URI=http://artifact_index:9696
-      - AI_WORKER_KEY=TOOMANYWORKERS
       - AI_POOL_SIZE=1
       - AI_STATS_FREQUENCY=15
-    command: bash -c "celery worker -A artifact_index.celery --broker=$${AI_REDIS_URI} --result-backend=$${AI_REDIS_URI} --loglevel=info -Q ai_local"
+      - AI_S3_MALWARE_BUCKET=testing
+      - AI_S3_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
+      - AI_S3_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+      - AI_S3_ENDPOINT=http://minio:9000/
+      - AI_WORKER_KEY=TOOMANYWORKERS
+      - AI_HISTORICAL_SCAN_FREQUENCY=10
+    command: bash -c "celery worker -A artifact_index.tasks.celery --broker=$${AI_REDIS_URI} --result-backend=$${AI_REDIS_URI} --loglevel=info -Q ai_local"
   beat:
     image: "polyswarm/artifact-index"
     environment:
@@ -47,7 +54,8 @@ services:
       - AI_WORKER_KEY=TOOMANYWORKERS
       - AI_POOL_SIZE=1
       - AI_STATS_FREQUENCY=15
-    command: bash -c "celery beat -A artifact_index.celery --broker=$${AI_REDIS_URI} --result-backend=$${AI_REDIS_URI} --loglevel=info"
+      - AI_HISTORICAL_SCAN_FREQUENCY=10
+    command: bash -c "celery beat -A artifact_index.tasks.celery --broker=$${AI_REDIS_URI} --result-backend=$${AI_REDIS_URI} --loglevel=info"
   aipostgres:
     image: "postgres:11.2"
     environment:
@@ -70,7 +78,7 @@ services:
         - "9200"
   redis_ai:
     image: "redis"
-  worker:
+  historical_worker:
     image: "polyswarm/artifact-index"
     environment:
       - AI_REDIS_URI=redis://redis_ai
@@ -78,8 +86,10 @@ services:
       - AI_WORKER_KEY=TOOMANYWORKERS
       - AI_POOL_SIZE=4
       - AI_STATS_FREQUENCY=15
-    command: bash -c "celery worker -A artifact_index.celery --broker=$${AI_REDIS_URI} --result-backend=$${AI_REDIS_URI} --loglevel=info"
-  worker2:
+      - AI_HISTORICAL_SCAN_FREQUENCY=10
+      - AI_WORKER_QUEUE=ai_historical
+    command: bash docker/run-celery.sh
+  live_worker:
     image: "polyswarm/artifact-index"
     environment:
       - AI_REDIS_URI=redis://redis_ai
@@ -87,5 +97,7 @@ services:
       - AI_WORKER_KEY=TOOMANYWORKERS
       - AI_POOL_SIZE=4
       - AI_STATS_FREQUENCY=15
-    command: bash -c "celery worker -A artifact_index.celery --broker=$${AI_REDIS_URI} --result-backend=$${AI_REDIS_URI} --loglevel=info"
+      - AI_HISTORICAL_SCAN_FREQUENCY=10
+      - AI_WORKER_QUEUE=ai_live
+    command: bash docker/run-celery.sh 
       
