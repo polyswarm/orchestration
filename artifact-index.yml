@@ -20,12 +20,15 @@ services:
       - AI_REDIS_URI=redis://redis_ai
       - FLASK_WORKERS=4
       - AI_HISTORICAL_SCAN_FREQUENCY=10
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
     command:
       - "dockerize"
       - "-wait"
       - "tcp://aipostgres:5432"
       - "-wait"
       - "tcp://minio:9000"
+      - "-wait"
+      - "http://elasticsearch:9200"
       - "-timeout"
       - "1000s"
       - "./docker/run.sh"
@@ -45,7 +48,7 @@ services:
       - AI_S3_ENDPOINT=http://minio:9000/
       - AI_WORKER_KEY=TOOMANYWORKERS
       - AI_HISTORICAL_SCAN_FREQUENCY=10
-    command: bash -c "celery worker -A artifact_index.tasks.celery --broker=$${AI_REDIS_URI} --result-backend=$${AI_REDIS_URI} --loglevel=info -Q ai_local"
+    command: bash -c "celery worker -A artifact_index --broker=$${AI_REDIS_URI} --result-backend=$${AI_REDIS_URI} --loglevel=info -Q ai_local"
   beat:
     image: "polyswarm/artifact-index"
     environment:
@@ -55,7 +58,7 @@ services:
       - AI_POOL_SIZE=1
       - AI_STATS_FREQUENCY=15
       - AI_HISTORICAL_SCAN_FREQUENCY=10
-    command: bash -c "celery beat -A artifact_index.tasks.celery --broker=$${AI_REDIS_URI} --result-backend=$${AI_REDIS_URI} --loglevel=info"
+    command: bash -c "celery beat -A artifact_index --broker=$${AI_REDIS_URI} --result-backend=$${AI_REDIS_URI} --loglevel=info"
   aipostgres:
     image: "postgres:11.2"
     environment:
@@ -88,7 +91,7 @@ services:
       - AI_STATS_FREQUENCY=15
       - AI_HISTORICAL_SCAN_FREQUENCY=10
       - AI_WORKER_QUEUE=ai_historical
-    command: bash docker/run-celery.sh
+    command: bash docker/run.sh worker
   live_worker:
     image: "polyswarm/artifact-index"
     environment:
@@ -99,5 +102,5 @@ services:
       - AI_STATS_FREQUENCY=15
       - AI_HISTORICAL_SCAN_FREQUENCY=10
       - AI_WORKER_QUEUE=ai_live
-    command: bash docker/run-celery.sh 
+    command: bash docker/run.sh worker 
       
