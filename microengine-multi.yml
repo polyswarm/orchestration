@@ -1,12 +1,14 @@
 version: '2'
 services:
 
-  microengine-multi:
-    image: "polyswarm/polyswarm-client"
+  microengine-multi_frontend:
+    image: "polyswarm/polyswarm-client:latest"
     environment:
       - PYTHONUNBUFFERED=1
       - KEYFILE=docker/microengine_keyfile
       - PASSWORD=password
+      - REDIS_ADDR=redis:6379
+      - QUEUE=microengine-multi
     command:
       - "dockerize"
       - "-wait"
@@ -15,19 +17,41 @@ services:
       - "1000s"
       - "microengine"
       - "--log"
-      - "info"
+      - "INFO"
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
       - "--insecure-transport"
       - "--testing"
       - "10"
       - "--backend"
-      - "multi"
+      - "producer"
       - "--chains"
       - "side"
 
-  deposit-microengine-multi:
-    image: "polyswarm/polyswarm-client"
+  microengine-multi_worker:
+    image: "polyswarm/polyswarm-client:latest"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - REDIS_ADDR=redis:6379
+      - QUEUE=microengine-multi
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-wait"
+      - "tcp://redis:6379"
+      - "-timeout"
+      - "1000s"
+      - "worker"
+      - "--log"
+      - "INFO"
+      - "--testing"
+      - "10"
+      - "--backend"
+      - "multi"
+
+  microengine-multi_deposit:
+    image: "polyswarm/polyswarm-client:latest"
     environment:
       - PYTHONUNBUFFERED=1
       - KEYFILE=docker/microengine_keyfile

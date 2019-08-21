@@ -1,14 +1,14 @@
 version: '2'
 services:
 
-  microengine-clamav:
-    image: "polyswarm/polyswarm-client"
+  microengine-clamav_frontend:
+    image: "polyswarm/polyswarm-client:latest"
     environment:
       - PYTHONUNBUFFERED=1
       - KEYFILE=docker/microengine_keyfile
       - PASSWORD=password
-      - CLAMD_HOST=clamav
-      - CLAMD_PORT=3310
+      - REDIS_ADDR=redis:6379
+      - QUEUE=microengine-clamav
     command:
       - "dockerize"
       - "-wait"
@@ -17,19 +17,41 @@ services:
       - "1000s"
       - "microengine"
       - "--log"
-      - "info"
+      - "INFO"
       - "--polyswarmd-addr"
       - "polyswarmd:31337"
       - "--insecure-transport"
       - "--testing"
       - "10"
       - "--backend"
-      - "clamav"
+      - "producer"
       - "--chains"
       - "side"
 
-  deposit-microengine-clamav:
-    image: "polyswarm/polyswarm-client"
+  microengine-clamav_worker:
+    image: "polyswarm/polyswarm-client:latest"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - REDIS_ADDR=redis:6379
+      - QUEUE=microengine-clamav
+    command:
+      - "dockerize"
+      - "-wait"
+      - "tcp://polyswarmd:31337"
+      - "-wait"
+      - "tcp://redis:6379"
+      - "-timeout"
+      - "1000s"
+      - "worker"
+      - "--log"
+      - "INFO"
+      - "--testing"
+      - "10"
+      - "--backend"
+      - "clamav"
+
+  microengine-clamav_deposit:
+    image: "polyswarm/polyswarm-client:latest"
     environment:
       - PYTHONUNBUFFERED=1
       - KEYFILE=docker/microengine_keyfile
