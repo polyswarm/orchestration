@@ -8,7 +8,7 @@ before_script:
 
 kick-e2e:
     tags:
-        - docker
+      - kube
     stage: deploy
     script:
       - set -e
