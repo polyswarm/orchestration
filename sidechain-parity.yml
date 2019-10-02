@@ -10,3 +10,4 @@ services:
             - "30304:30303"
             - "7545:8545"
         command: ["./run_parity.sh"]
+
