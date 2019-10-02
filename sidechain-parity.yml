@@ -1,0 +1,13 @@
+version: '2'
+services:
+    sidechain:
+        image: "polyswarm/parity"
+        entrypoint: /bin/sh
+        environment:
+            - NETWORK_ID=1338
+            - CHAIN_NAME=sidechain
+        ports:
+            - "30304:30303"
+            - "7545:8545"
+        command: ["./run_parity.sh"]
+
