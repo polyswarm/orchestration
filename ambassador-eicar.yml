@@ -48,7 +48,3 @@ services:
       - "--insecure-transport"
       - "100000"
 
-networks:
-  default:
-    external:
-      name: orchestration_default
