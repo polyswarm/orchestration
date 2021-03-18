@@ -10,6 +10,14 @@ services:
             - PYTHONUNBUFFERED=1
             - CONSUL=http://consul:8500
             - POLY_COMMUNITY_NAME=gamma
+            - POLYSWAMRD_COMMUNITY=gamme
+            - POLYSWAMRD_WEBSOCKET_ENABLED=1
+            - POLYSWARMD_ARTIFACT_MAX_SIZE=34603008
+            - POLYSWAMRD_ARTIFACT_LIMIT=1
+            - POLYSWAMRD_ARTIFACT_LIBRARY_MODULE=polyswarmd.services.artifact.ipfs
+            - POLYSWARMD_ARTIFACT_LIBRARY_CLASS_NAME=IpfsServiceClient
+            - IPFS_URI=ipfs:4001
+            - POLYSWAMRD_REDIS_URL=redis://redis:6379
         ports:
             - "31337:31337"
     consul:
@@ -160,6 +168,8 @@ services:
         image: "postgres"
         ports:
             - 5432:5432
+        environment:
+          - POSTGRES_PASSWORD=example
         volumes:
         - "postgres-data:/var/lib/postgresql/data"
     redis:
